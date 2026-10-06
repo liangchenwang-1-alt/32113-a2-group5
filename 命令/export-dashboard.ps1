@@ -1,4 +1,4 @@
-# 32113 A2 - export the report views to CSV and build the HTML dashboard.
+﻿# 32113 A2 - export the report views to CSV and build the HTML dashboard.
 #
 # Usage (from this folder):
 #   powershell -NoProfile -ExecutionPolicy Bypass -File .\export-dashboard.ps1
