@@ -1,0 +1,62 @@
+﻿32113 A2 - local Docker Lab sync report
+=======================================
+Send this file to the group chat. Compare the fingerprint table with your teammates:
+identical fingerprints = the same deterministic result was built on each machine.
+
+date           : 2026-10-06 23:25:52 +11:00
+machine        : DESKTOP-TPBJ4I7
+user           : User
+powershell     : 5.1.26100.9549
+os             : Microsoft Windows 11 专业版
+docker cli     : C:\Users\User\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe
+docker version : Docker version 29.8.1, build 4a63305
+engine         : running
+compose        : Docker Compose version v5.5.1
+
+--- containers ---
+student-clickhouse | clickhouse/clickhouse-server:latest | Up 4 seconds
+student-cloudbeaver | dbeaver/cloudbeaver:latest | Up 3 seconds
+student-neo4j | neo4j:5 | Up 3 seconds
+student-postgres | postgres:15 | Up 3 seconds
+student-python | advanced-database-lab-python | Up 3 seconds
+running services: clickhouse,cloudbeaver,neo4j,postgres,python
+
+--- image digests (what we actually run) ---
+postgres:15                                postgres@sha256:724292da1f2e50bdccfc3302ce75bbba7f4a6076701b588cc795fcac65683550
+neo4j:latest                               docker.exe : Error response from daemon: No such image: neo4j:latest
+At C:\Users\User\Desktop\AGENT\UTS学习区\32113\02_作业\A2\命令\export-sync-info.ps1:73 char:11
++     $d = (& docker image inspect --format '{{index .RepoDigests 0}}'  ...
++           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Error response ...e: neo4j:latest:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+clickhouse/clickhouse-server:latest        clickhouse/clickhouse-server@sha256:1f9c29a753cc07f9e2272a9d9383a840b222bbda78166da39dd10eecafe6500d
+dbeaver/cloudbeaver:latest                 dbeaver/cloudbeaver@sha256:34b078483dac9502ed6a718a68c54368d55dd0abbc7b392d6e78b90f6a9ec3f6
+
+--- database ---
+server         : PostgreSQL 15.19 (Debian 15.19-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+database/user  : lab / student
+
+--- deterministic fingerprint (T5) ---
+expect (2026-10-01 reference run on the author machine):
+  dim_customer|4|40d91965d4710bc2b521e8f41399d2e4
+  dim_account|5|4e5724025e7bb2853f9b01710826e9ec
+  customer_xref|14|50a09ed5b89d80bfad3bc66eb75464f4
+  fact_transaction|6|fe8cf732e1437fcba48468c5277f41a5
+  fact_activity|6|8d978637b0c0a0f85a21261b846763bf
+  fact_service_case|4|1bbddcc388f8bb82997856a57a29d7b2
+  rejected_record|1|060416e07dd1e9f5617d100d3d5770d6
+
+actual on this machine:
+  customer_xref|14|50a09ed5b89d80bfad3bc66eb75464f4
+  dim_account|5|4e5724025e7bb2853f9b01710826e9ec
+  dim_customer|4|40d91965d4710bc2b521e8f41399d2e4
+  fact_activity|6|8d978637b0c0a0f85a21261b846763bf
+  fact_service_case|4|1bbddcc388f8bb82997856a57a29d7b2
+  fact_transaction|6|fe8cf732e1437fcba48468c5277f41a5
+  rejected_record|1|060416e07dd1e9f5617d100d3d5770d6
+
+Next step if a teammate's fingerprints differ:
+  1) run .\verify-e2e.ps1 to rebuild from scratch,  2) run this script again,
+  3) if it still differs, post BOTH reports in the chat - do not edit the SQL alone.
+
+report written to: C:\Users\User\Desktop\AGENT\UTS学习区\32113\02_作业\A2\lab-env\advanced-database-lab\workspace\evidence\sync\sync-info_DESKTOP-TPBJ4I7_20261006_232552.txt
