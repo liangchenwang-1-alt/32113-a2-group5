@@ -1,36 +1,41 @@
-# 32113 A2 —— 哪些文件不进 Git / 不同步给组员
-# 注意：.gitignore 里 # 只有写在行首才是注释，写在文件名后面会被当成模式的一部分。
+# ============================================================================
+# This repository contains ONLY the Assignment 2 prototype files.
+# Everything else (working notes, logs, plans, helper scripts) stays on the
+# author's computer and is listed below so it is never committed.
+# Patterns are ASCII on purpose: a whitelist at the root level.
+# ============================================================================
 
-# 1) 【最重要】容器数据卷：本机 805 MB，是 Postgres/ClickHouse/Neo4j/CloudBeaver 的运行时数据。
-#    各人机器上会自己重建，提交它既巨大又必然冲突（平台/权限/版本差异）。
-lab-env/advanced-database-lab/data/
+# 1) ignore everything at the repository root ...
+/*
+# ... except the public README, this file, and the Lab Environment folder
+!/README.md
+!/.gitignore
+!/lab-env/
 
-# 2) 本机运行产物
-*.log
-*.tmp
-__pycache__/
-.pytest_cache/
+# 2) the container data volume (created locally by Docker, several hundred MB)
+/lab-env/advanced-database-lab/data/
 
-# 2b) 界面截图缓存（本机 7.5 MB 的 CloudBeaver/UI 抓图，属于我自己的排错过程）
-.ui-captures/
+# 3) working documents that are NOT part of the submission
+#    (test matrix, report specification, run logs, walkthroughs - kept locally)
+/lab-env/advanced-database-lab/workspace/part3_warehouse_etl/*.md
+/lab-env/advanced-database-lab/workspace/part5_reports_testing/*.md
+/lab-env/advanced-database-lab/workspace/contracts/DATA_CONTRACT_v0_TENTATIVE.md
 
-# 2c) 面向老师/组员的离线演示包（脚本每次重新生成，不进仓库）
-demo-package/
+# 4) official lab exercises / smoke-test leftovers (not our prototype)
+/lab-env/advanced-database-lab/workspace/*.sql
+/lab-env/advanced-database-lab/workspace/*.py
 
-# 3) 密码 / 令牌：本目录目前没有，但不许哪天不小心提交一个
-.env
-*.env
-*secret*
-*token*
-*password*
+# 5) local evidence extras: keep one verified end-to-end run + the dashboard data
+/lab-env/advanced-database-lab/workspace/evidence/*.txt
+/lab-env/advanced-database-lab/workspace/evidence/contributions/
+/lab-env/advanced-database-lab/workspace/evidence/sync/
+/lab-env/advanced-database-lab/workspace/evidence/e2e_20261001_172735/
+/lab-env/advanced-database-lab/workspace/evidence/e2e_20261001_172809/
 
-# 4) 个人与合规类文件（默认隐藏，理由：组员和 tutor 不需要看我的内部底稿）
-#    想提交就把下面的 ! 行删掉即可。
-个人贡献证据_Member5.md
-AI协助范围记录.md
-阻塞项.md
+# 6) local build artefacts
+/lab-env/advanced-database-lab/workspace/evidence/dashboard_data/*.tmp
 
-# 5) 操作系统垃圾
+# 7) operating system / editor noise
 Thumbs.db
 desktop.ini
 .DS_Store

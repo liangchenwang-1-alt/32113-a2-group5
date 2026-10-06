@@ -1,5 +1,0 @@
-﻿ Container student-python Running 
- Container student-postgres Running 
- Container student-neo4j Running 
- Container student-clickhouse Running 
- Container student-cloudbeaver Running 
