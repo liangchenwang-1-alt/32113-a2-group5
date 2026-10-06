@@ -76,6 +76,9 @@ A2\
 │   ├─ run-lab.ps1            ← 统一入口：report / verify / init / start / wait / smoke
 │   ├─ export-sync-info.ps1   ← 生成"同步报告"（机器 + Docker + 镜像 digest + 7 表指纹），发群里比对
 │   ├─ export-contributions.ps1 ← 从 Git 历史生成"谁做了什么"的表（附录贡献证据）
+│   ├─ build-demo-package.ps1 ← 生成离线演示包（桌面 zip：index.html + dashboard.pdf + 文档 + 证据 + SQL）
+│   ├─ render-docs.mjs        ← 把 md 渲染成网页并生成演示包落地页（无依赖的迷你 Markdown 渲染）
+│   ├─ start-public-demo.ps1  ← 用 cloudflared 把 CloudBeaver 开成临时公网链接（演示用，需显式执行）
 │   ├─ verify-e2e.ps1         ← 【第5部分】一键复现+端到端测试（两遍构建、记录每步退出码、比对指纹）
 │   ├─ export-dashboard.ps1   ← 【第5部分】导出 7 个视图为 CSV，并调用下面的脚本生成 dashboard.html
 │   ├─ build-dashboard.mjs    ← 【第5部分】用真实 CSV 生成自包含 HTML dashboard
