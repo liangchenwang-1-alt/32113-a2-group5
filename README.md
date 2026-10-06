@@ -69,6 +69,7 @@ A2\
 ├─ 演示与展示协调.md            ← 【Member 5】10 分钟演示流程 / 收材料清单 / Q&A 答案要点 / 风险预案
 ├─ 个人贡献证据_Member5.md      ← 【Member 5】附录用 contribution logbook（含 AI 协助标注）
 ├─ 组员同步指南.md              ← 怎么和组员共享这份 Docker 作业（Git / zip / 同一数据库 / 一致性验证）
+├─ 组员同步编辑与部署.md        ← 【协作主文档】代码 Git / 实时共编 Live Share / 同环境 Tailscale + 组员不给东西时怎么办
 ├─ 协作与展示方案.md            ← 【多人协作】代码用 GitHub 一起改 / 报告用 M365 / 老师那台电脑怎么打开
 ├─ START_HERE.md               ← 给组员和老师看的入口说明（可提交、可分享；不含内部待办）
 ├─ .gitignore                   ← 建 Git 仓库前先有它：排除 data\（805 MB）、.ui-captures\、密码类文件
