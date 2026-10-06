@@ -1,0 +1,50 @@
+
+########## R1: Customer 360 ##########
+ customer_key |   full_name    | accounts | transactions | amount_aud | digital_activities | service_cases | open_cases 
+--------------+----------------+----------+--------------+------------+--------------------+---------------+------------
+            1 | Alice Nguyen   |        2 |            0 |          0 |                  3 |             2 |          1
+            2 | Ben Carter     |        1 |            1 |     980.75 |                  1 |             1 |          0
+            3 | Chandra Rao    |        1 |            0 |          0 |                  0 |             0 |          0
+            4 | Dana Whitfield |        1 |            0 |          0 |                  0 |             0 |          0
+(4 rows)
+
+
+########## R2: Transaction analysis by date and channel ##########
+ full_date  | channel_code |   channel_name   | txn_count | amount_aud 
+------------+--------------+------------------+-----------+------------
+ 2026-08-01 | APP          | Mobile app       |         1 |     125.50
+ 2026-08-01 | EFTPOS       | EFTPOS terminal  |         1 |      64.00
+ 2026-08-02 | APP          | Mobile app       |         1 |      15.00
+ 2026-08-02 | WEB          | Internet banking |         1 |     980.75
+ 2026-08-03 | ATM          | ATM              |         1 |     200.00
+ 2026-08-03 | BRANCH       | Branch           |         1 |     450.25
+(6 rows)
+
+
+########## R2b: transaction totals by channel only ##########
+ channel_code |   channel_name   | txn_count | amount_aud 
+--------------+------------------+-----------+------------
+ WEB          | Internet banking |         1 |     980.75
+ BRANCH       | Branch           |         1 |     450.25
+ ATM          | ATM              |         1 |     200.00
+ APP          | Mobile app       |         2 |     140.50
+ EFTPOS       | EFTPOS terminal  |         1 |      64.00
+(5 rows)
+
+
+########## R3: Channel / service engagement ##########
+ channel_code | active_customers | activity_count | case_count | open_cases | pending_cases | closed_cases 
+--------------+------------------+----------------+------------+------------+---------------+--------------
+ APP          |                1 |              4 |          4 |          1 |             1 |            2
+ WEB          |                1 |              2 |          4 |          1 |             1 |            2
+(2 rows)
+
+
+########## R3b: digital activity mix by type ##########
+ activity_type | events | customers 
+---------------+--------+-----------
+ LOGIN         |      3 |         2
+ PAY_SOMEONE   |      2 |         1
+ VIEW_BALANCE  |      1 |         1
+(3 rows)
+

@@ -1,0 +1,5 @@
+﻿customer_key,full_name,match_quality,accounts,transactions,amount_aud,digital_activities,service_cases,open_cases
+2,Ben Carter,EMAIL_MATCH,1,1,980.75,1,1,0
+4,Dana Whitfield,EMAIL_MATCH,1,0,0,0,0,0
+1,Alice Nguyen,EMAIL_MATCH,2,0,0,3,2,1
+3,Chandra Rao,SINGLE_SOURCE,1,0,0,0,0,0

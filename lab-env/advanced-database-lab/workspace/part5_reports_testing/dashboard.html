@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CBA Customer 360 – Integrated Warehouse Dashboard</title>
+<style>
+  :root { --ink:#1b2a41; --muted:#5b6b82; --line:#d9e0ea; --accent:#0b4f9e; --bg:#f5f7fb; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:28px; background:var(--bg); color:var(--ink);
+         font:14px/1.5 "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  h1 { font-size:24px; margin:0 0 4px; }
+  h2 { font-size:16px; margin:28px 0 8px; padding-bottom:6px; border-bottom:2px solid var(--accent); }
+  .sub { color:var(--muted); font-size:12.5px; margin-bottom:18px; }
+  .cards { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px 14px; }
+  .card .k { font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+  .card .v { font-size:22px; font-weight:600; margin-top:4px; }
+  .card .s { font-size:11px; color:var(--muted); margin-top:2px; }
+  .panel { background:#fff; border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
+  table { border-collapse:collapse; width:100%; font-size:13px; }
+  th, td { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; }
+  th { background:#eef2f8; font-weight:600; }
+  td.n, th.n { text-align:right; font-variant-numeric:tabular-nums; }
+  .bars { display:flex; flex-direction:column; gap:6px; }
+  .bar { display:grid; grid-template-columns:190px 1fr 120px; align-items:center; gap:10px; font-size:13px; }
+  .bt { background:#e8edf5; border-radius:4px; height:14px; display:block; overflow:hidden; }
+  .bt i { display:block; height:100%; background:var(--accent); }
+  .bv { text-align:right; font-variant-numeric:tabular-nums; }
+  .missing { color:#b3261e; font-style:italic; }
+  footer { margin-top:28px; color:var(--muted); font-size:11.5px; border-top:1px solid var(--line); padding-top:10px; }
+  code { background:#eef2f8; padding:1px 4px; border-radius:3px; }
+</style>
+</head>
+<body>
+  <h1>CBA Customer 360 – Integrated Warehouse Dashboard</h1>
+  <div class="sub">32113 Advanced Database · Assignment 2 · Group 5 · synthetic data only (no real customer data) ·
+    generated from live query output at 2026-10-01 07:29:12 UTC</div>
+
+  <h2>Data-quality scorecard (dw.v_r5_data_quality_kpi)</h2>
+  <div class="cards">
+    <div class="card"><div class="k">Customers (resolved)</div><div class="v">4</div><div class="s">dw.dim_customer</div></div>
+    <div class="card"><div class="k">Accounts</div><div class="v">5</div><div class="s">dw.dim_account</div></div>
+    <div class="card"><div class="k">Transactions</div><div class="v">6</div><div class="s">dw.fact_transaction</div></div>
+    <div class="card"><div class="k">Transaction value (AUD)</div><div class="v">1,835.50</div><div class="s">sum(amount_aud)</div></div>
+    <div class="card"><div class="k">Identity rows</div><div class="v">14</div><div class="s">dw.customer_xref</div></div>
+    <div class="card"><div class="k">Ambiguous identities</div><div class="v">2</div><div class="s">match_status = ambiguous</div></div>
+    <div class="card"><div class="k">Unresolved transactions</div><div class="v">5</div><div class="s">customer_key IS NULL</div></div>
+    <div class="card"><div class="k">Rejected records</div><div class="v">1</div><div class="s">dw.rejected_record</div></div>
+  </div>
+
+  <h2>R1 · Customer 360 (dw.v_r1_customer_360)</h2>
+  <div class="panel">
+    <table><thead><tr><th>customer key</th><th>full name</th><th>match quality</th><th class="n">accounts</th><th class="n">transactions</th><th class="n">amount aud</th><th class="n">digital activities</th><th class="n">service cases</th><th class="n">open cases</th></tr></thead><tbody><tr><td>2</td><td>Ben Carter</td><td>EMAIL_MATCH</td><td class="n">1</td><td class="n">1</td><td class="n">980.75</td><td class="n">1</td><td class="n">1</td><td class="n">0</td></tr>
+<tr><td>4</td><td>Dana Whitfield</td><td>EMAIL_MATCH</td><td class="n">1</td><td class="n">0</td><td class="n">0.00</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr>
+<tr><td>1</td><td>Alice Nguyen</td><td>EMAIL_MATCH</td><td class="n">2</td><td class="n">0</td><td class="n">0.00</td><td class="n">3</td><td class="n">2</td><td class="n">1</td></tr>
+<tr><td>3</td><td>Chandra Rao</td><td>SINGLE_SOURCE</td><td class="n">1</td><td class="n">0</td><td class="n">0.00</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr></tbody></table>
+    <div class="sub" style="margin:10px 0 0">Amounts are per resolved customer. Rows whose identity could not be resolved are
+    not guessed onto a customer – see the reconciliation panel (R6) below.</div>
+  </div>
+
+  <h2>R2b · Transaction value by channel (dw.v_r2b_transaction_by_channel)</h2>
+  <div class="panel">
+    <div class="bars"><div class="bar"><span class="bl">ATM</span><span class="bt"><i style="width:20%"></i></span><span class="bv">200.00 AUD</span></div>
+<div class="bar"><span class="bl">Branch</span><span class="bt"><i style="width:46%"></i></span><span class="bv">450.25 AUD</span></div>
+<div class="bar"><span class="bl">Internet banking</span><span class="bt"><i style="width:100%"></i></span><span class="bv">980.75 AUD</span></div>
+<div class="bar"><span class="bl">EFTPOS terminal</span><span class="bt"><i style="width:7%"></i></span><span class="bv">64.00 AUD</span></div>
+<div class="bar"><span class="bl">Mobile app</span><span class="bt"><i style="width:14%"></i></span><span class="bv">140.50 AUD</span></div></div>
+    <div style="margin-top:12px"><table><thead><tr><th>channel code</th><th>channel name</th><th class="n">txn count</th><th class="n">amount aud</th></tr></thead><tbody><tr><td>ATM</td><td>ATM</td><td class="n">1</td><td class="n">200.00</td></tr>
+<tr><td>BRANCH</td><td>Branch</td><td class="n">1</td><td class="n">450.25</td></tr>
+<tr><td>WEB</td><td>Internet banking</td><td class="n">1</td><td class="n">980.75</td></tr>
+<tr><td>EFTPOS</td><td>EFTPOS terminal</td><td class="n">1</td><td class="n">64.00</td></tr>
+<tr><td>APP</td><td>Mobile app</td><td class="n">2</td><td class="n">140.50</td></tr></tbody></table></div>
+  </div>
+
+  <h2>R2 · Transactions by date and channel (dw.v_r2_transaction_by_date_channel)</h2>
+  <div class="panel"><table><thead><tr><th>full date</th><th>day of week</th><th>channel code</th><th>channel name</th><th class="n">txn count</th><th class="n">amount aud</th></tr></thead><tbody><tr><td>2026-08-02</td><td>Sunday</td><td>WEB</td><td>Internet banking</td><td class="n">1</td><td class="n">980.75</td></tr>
+<tr><td>2026-08-03</td><td>Monday</td><td>BRANCH</td><td>Branch</td><td class="n">1</td><td class="n">450.25</td></tr>
+<tr><td>2026-08-01</td><td>Saturday</td><td>APP</td><td>Mobile app</td><td class="n">1</td><td class="n">125.50</td></tr>
+<tr><td>2026-08-03</td><td>Monday</td><td>ATM</td><td>ATM</td><td class="n">1</td><td class="n">200.00</td></tr>
+<tr><td>2026-08-01</td><td>Saturday</td><td>EFTPOS</td><td>EFTPOS terminal</td><td class="n">1</td><td class="n">64.00</td></tr>
+<tr><td>2026-08-02</td><td>Sunday</td><td>APP</td><td>Mobile app</td><td class="n">1</td><td class="n">15.00</td></tr></tbody></table></div>
+
+  <h2>R3 · Channel engagement (dw.v_r3_channel_engagement)</h2>
+  <div class="panel">
+    <div class="bars"><div class="bar"><span class="bl">Mobile app</span><span class="bt"><i style="width:100%"></i></span><span class="bv">4</span></div>
+<div class="bar"><span class="bl">ATM</span><span class="bt"><i style="width:1%"></i></span><span class="bv">0</span></div>
+<div class="bar"><span class="bl">Branch</span><span class="bt"><i style="width:1%"></i></span><span class="bv">0</span></div>
+<div class="bar"><span class="bl">EFTPOS terminal</span><span class="bt"><i style="width:1%"></i></span><span class="bv">0</span></div>
+<div class="bar"><span class="bl">Internet banking</span><span class="bt"><i style="width:50%"></i></span><span class="bv">2</span></div></div>
+    <div style="margin-top:12px"><table><thead><tr><th>channel code</th><th>channel name</th><th class="n">active customers</th><th class="n">activity count</th></tr></thead><tbody><tr><td>APP</td><td>Mobile app</td><td class="n">1</td><td class="n">4</td></tr>
+<tr><td>ATM</td><td>ATM</td><td class="n">0</td><td class="n">0</td></tr>
+<tr><td>BRANCH</td><td>Branch</td><td class="n">0</td><td class="n">0</td></tr>
+<tr><td>EFTPOS</td><td>EFTPOS terminal</td><td class="n">0</td><td class="n">0</td></tr>
+<tr><td>WEB</td><td>Internet banking</td><td class="n">1</td><td class="n">2</td></tr></tbody></table></div>
+    <div class="sub" style="margin:10px 0 0">Digital activity is genuinely channel-attributed in the source.
+    Service cases are <strong>not</strong> shown per channel: the source carries no channel for a case, so a
+    per-channel case figure would be a fabricated attribution (guard test T10).</div>
+  </div>
+
+  <h2>R4 · Service cases by status (dw.v_r4_service_case_summary)</h2>
+  <div class="panel"><table><thead><tr><th>status</th><th class="n">case count</th><th class="n">customers</th><th class="n">high severity</th></tr></thead><tbody><tr><td>CLOSED</td><td class="n">2</td><td class="n">2</td><td class="n">0</td></tr>
+<tr><td>OPEN</td><td class="n">1</td><td class="n">1</td><td class="n">1</td></tr>
+<tr><td>PENDING</td><td class="n">1</td><td class="n">0</td><td class="n">0</td></tr></tbody></table></div>
+
+  <h2>R6 · Attribution reconciliation (dw.v_r6_attribution_reconciliation)</h2>
+  <div class="panel">
+    <table><thead><tr><th>fact</th><th class="n">total rows</th><th class="n">attributed rows</th><th class="n">unattributed rows</th><th class="n">total amount aud</th><th class="n">attributed amount aud</th><th class="n">unattributed amount aud</th></tr></thead><tbody><tr><td>fact_transaction</td><td class="n">6</td><td class="n">1</td><td class="n">5</td><td class="n">1,835.50</td><td class="n">980.75</td><td class="n">854.75</td></tr>
+<tr><td>fact_activity</td><td class="n">6</td><td class="n">4</td><td class="n">2</td><td class="n">0.00</td><td class="n">0.00</td><td class="n">0.00</td></tr>
+<tr><td>fact_service_case</td><td class="n">4</td><td class="n">3</td><td class="n">1</td><td class="n">0.00</td><td class="n">0.00</td><td class="n">0.00</td></tr></tbody></table>
+    <div class="sub" style="margin:10px 0 0">Proves nothing is lost: attributed + unattributed equals the warehouse total
+    (test T13). Unattributed rows are customers/payers whose identity could not be resolved deterministically.</div>
+  </div>
+
+  <footer>
+    Generated by <code>命令\export-dashboard.ps1</code> → <code>node build-dashboard.mjs</code> from CSV exported with
+    <code>psql --csv</code> against the official Lab Environment (<code>student-postgres</code>, database <code>lab</code>).
+    Every figure above is a direct copy of a query result; regenerate the prototype to reproduce.
+    Data is deterministic synthetic fixture data – no real CommBank data was used.
+  </footer>
+</body>
+</html>

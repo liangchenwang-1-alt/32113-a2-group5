@@ -1,0 +1,23 @@
+﻿BEGIN
+DROP VIEW
+DROP VIEW
+DROP VIEW
+NOTICE:  view "v_r1_customer_360" does not exist, skipping
+NOTICE:  view "v_r2_transaction_by_date_channel" does not exist, skipping
+NOTICE:  view "v_r2b_transaction_by_channel" does not exist, skipping
+DROP VIEW
+NOTICE:  view "v_r3_channel_engagement" does not exist, skipping
+NOTICE:  view "v_r4_service_case_summary" does not exist, skipping
+DROP VIEW
+DROP VIEW
+NOTICE:  view "v_r5_data_quality_kpi" does not exist, skipping
+DROP VIEW
+NOTICE:  view "v_r6_attribution_reconciliation" does not exist, skipping
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+COMMIT

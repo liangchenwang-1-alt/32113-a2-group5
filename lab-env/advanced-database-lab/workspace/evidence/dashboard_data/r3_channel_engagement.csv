@@ -1,0 +1,6 @@
+﻿channel_code,channel_name,active_customers,activity_count
+APP,Mobile app,1,4
+ATM,ATM,0,0
+BRANCH,Branch,0,0
+EFTPOS,EFTPOS terminal,0,0
+WEB,Internet banking,1,2

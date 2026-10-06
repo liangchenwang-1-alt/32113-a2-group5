@@ -1,0 +1,2 @@
+﻿dim_customer_rows,dim_account_rows,xref_rows,xref_matched,xref_ambiguous,xref_unmatched,transaction_rows,transactions_unresolved,transaction_amount_aud,activity_rows,service_case_rows,rejected_rows
+4,5,14,8,2,4,6,5,1835.50,6,4,1

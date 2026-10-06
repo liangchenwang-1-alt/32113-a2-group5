@@ -1,0 +1,69 @@
+﻿
+########## R1: Customer 360 (dw.v_r1_customer_360) ##########
+ customer_key |   full_name    | match_quality | accounts | transactions | amount_aud | digital_activities | service_cases | open_cases 
+--------------+----------------+---------------+----------+--------------+------------+--------------------+---------------+------------
+            1 | Alice Nguyen   | EMAIL_MATCH   |        2 |            0 |          0 |                  3 |             2 |          1
+            2 | Ben Carter     | EMAIL_MATCH   |        1 |            1 |     980.75 |                  1 |             1 |          0
+            3 | Chandra Rao    | SINGLE_SOURCE |        1 |            0 |          0 |                  0 |             0 |          0
+            4 | Dana Whitfield | EMAIL_MATCH   |        1 |            0 |          0 |                  0 |             0 |          0
+(4 rows)
+
+
+########## R2: Transaction analysis by date and channel (dw.v_r2_transaction_by_date_channel) ##########
+ full_date  | day_of_week | channel_code |   channel_name   | txn_count | amount_aud 
+------------+-------------+--------------+------------------+-----------+------------
+ 2026-08-01 | Saturday    | APP          | Mobile app       |         1 |     125.50
+ 2026-08-01 | Saturday    | EFTPOS       | EFTPOS terminal  |         1 |      64.00
+ 2026-08-02 | Sunday      | APP          | Mobile app       |         1 |      15.00
+ 2026-08-02 | Sunday      | WEB          | Internet banking |         1 |     980.75
+ 2026-08-03 | Monday      | ATM          | ATM              |         1 |     200.00
+ 2026-08-03 | Monday      | BRANCH       | Branch           |         1 |     450.25
+(6 rows)
+
+
+########## R2b: transaction totals by channel (dw.v_r2b_transaction_by_channel) ##########
+ channel_code |   channel_name   | txn_count | amount_aud 
+--------------+------------------+-----------+------------
+ WEB          | Internet banking |         1 |     980.75
+ BRANCH       | Branch           |         1 |     450.25
+ ATM          | ATM              |         1 |     200.00
+ APP          | Mobile app       |         2 |     140.50
+ EFTPOS       | EFTPOS terminal  |         1 |      64.00
+(5 rows)
+
+
+########## R3: Channel engagement (dw.v_r3_channel_engagement) ##########
+ channel_code |   channel_name   | active_customers | activity_count 
+--------------+------------------+------------------+----------------
+ APP          | Mobile app       |                1 |              4
+ ATM          | ATM              |                0 |              0
+ BRANCH       | Branch           |                0 |              0
+ EFTPOS       | EFTPOS terminal  |                0 |              0
+ WEB          | Internet banking |                1 |              2
+(5 rows)
+
+
+########## R3b: digital activity mix by type ##########
+ activity_type | events | customers 
+---------------+--------+-----------
+ LOGIN         |      3 |         2
+ PAY_SOMEONE   |      2 |         1
+ VIEW_BALANCE  |      1 |         1
+(3 rows)
+
+
+########## R4: service cases by status (dw.v_r4_service_case_summary) ##########
+ status  | case_count | customers | high_severity 
+---------+------------+-----------+---------------
+ CLOSED  |          2 |         2 |             0
+ OPEN    |          1 |         1 |             1
+ PENDING |          1 |         0 |             0
+(3 rows)
+
+
+########## R5: data-quality KPI board (dw.v_r5_data_quality_kpi) ##########
+ dim_customer_rows | dim_account_rows | xref_rows | xref_matched | xref_ambiguous | xref_unmatched | transaction_rows | transactions_unresolved | transaction_amount_aud | activity_rows | service_case_rows | rejected_rows 
+-------------------+------------------+-----------+--------------+----------------+----------------+------------------+-------------------------+------------------------+---------------+-------------------+---------------
+                 4 |                5 |        14 |            8 |              2 |              4 |                6 |                       5 |                1835.50 |             6 |                 4 |             1
+(1 row)
+

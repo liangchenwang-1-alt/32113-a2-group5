@@ -1,0 +1,6 @@
+﻿channel_code,channel_name,txn_count,amount_aud
+ATM,ATM,1,200.00
+BRANCH,Branch,1,450.25
+WEB,Internet banking,1,980.75
+EFTPOS,EFTPOS terminal,1,64.00
+APP,Mobile app,2,140.50

@@ -1,0 +1,33 @@
+﻿BEGIN
+CREATE SCHEMA
+NOTICE:  schema "dw" already exists, skipping
+NOTICE:  drop cascades to 4 other objects
+DETAIL:  drop cascades to view dw.v_r1_customer_360
+drop cascades to view dw.v_r4_service_case_summary
+drop cascades to view dw.v_r5_data_quality_kpi
+drop cascades to view dw.v_r6_attribution_reconciliation
+DROP TABLE
+NOTICE:  drop cascades to view dw.v_r3_channel_engagement
+DROP TABLE
+NOTICE:  drop cascades to 2 other objects
+DETAIL:  drop cascades to view dw.v_r2_transaction_by_date_channel
+drop cascades to view dw.v_r2b_transaction_by_channel
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+COMMIT

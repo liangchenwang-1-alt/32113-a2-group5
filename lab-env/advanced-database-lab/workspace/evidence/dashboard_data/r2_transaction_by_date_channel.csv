@@ -1,0 +1,7 @@
+﻿full_date,day_of_week,channel_code,channel_name,txn_count,amount_aud
+2026-08-02,Sunday,WEB,Internet banking,1,980.75
+2026-08-03,Monday,BRANCH,Branch,1,450.25
+2026-08-01,Saturday,APP,Mobile app,1,125.50
+2026-08-03,Monday,ATM,ATM,1,200.00
+2026-08-01,Saturday,EFTPOS,EFTPOS terminal,1,64.00
+2026-08-02,Sunday,APP,Mobile app,1,15.00

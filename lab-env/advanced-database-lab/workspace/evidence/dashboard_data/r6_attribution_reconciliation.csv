@@ -1,0 +1,4 @@
+﻿fact,total_rows,attributed_rows,unattributed_rows,total_amount_aud,attributed_amount_aud,unattributed_amount_aud
+fact_transaction,6,1,5,1835.50,980.75,854.75
+fact_activity,6,4,2,,,
+fact_service_case,4,3,1,,,

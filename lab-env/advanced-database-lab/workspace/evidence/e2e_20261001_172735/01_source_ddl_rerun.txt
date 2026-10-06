@@ -1,0 +1,24 @@
+﻿BEGIN
+CREATE SCHEMA
+CREATE SCHEMA
+NOTICE:  schema "s1_core" already exists, skipping
+NOTICE:  schema "s2_payments" already exists, skipping
+CREATE SCHEMA
+NOTICE:  schema "s3_digital" already exists, skipping
+CREATE SCHEMA
+CREATE SCHEMA
+NOTICE:  schema "stg" already exists, skipping
+NOTICE:  schema "dw" already exists, skipping
+DROP TABLE
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+DROP TABLE
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+DROP TABLE
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+COMMIT

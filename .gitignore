@@ -1,0 +1,36 @@
+# 32113 A2 —— 哪些文件不进 Git / 不同步给组员
+# 注意：.gitignore 里 # 只有写在行首才是注释，写在文件名后面会被当成模式的一部分。
+
+# 1) 【最重要】容器数据卷：本机 805 MB，是 Postgres/ClickHouse/Neo4j/CloudBeaver 的运行时数据。
+#    各人机器上会自己重建，提交它既巨大又必然冲突（平台/权限/版本差异）。
+lab-env/advanced-database-lab/data/
+
+# 2) 本机运行产物
+*.log
+*.tmp
+__pycache__/
+.pytest_cache/
+
+# 2b) 界面截图缓存（本机 7.5 MB 的 CloudBeaver/UI 抓图，属于我自己的排错过程）
+.ui-captures/
+
+# 2c) 面向老师/组员的离线演示包（脚本每次重新生成，不进仓库）
+demo-package/
+
+# 3) 密码 / 令牌：本目录目前没有，但不许哪天不小心提交一个
+.env
+*.env
+*secret*
+*token*
+*password*
+
+# 4) 个人与合规类文件（默认隐藏，理由：组员和 tutor 不需要看我的内部底稿）
+#    想提交就把下面的 ! 行删掉即可。
+个人贡献证据_Member5.md
+AI协助范围记录.md
+阻塞项.md
+
+# 5) 操作系统垃圾
+Thumbs.db
+desktop.ini
+.DS_Store

@@ -1,0 +1,62 @@
+﻿=== T1: source -> warehouse reconciliation (settled transactions) ===
+ source_settled | rejected_orphans | expected_loaded | actual_loaded | result 
+----------------+------------------+-----------------+---------------+--------
+              7 |                1 |               6 |             6 | PASS
+(1 row)
+
+=== T1b: amount reconciliation (no duplication / no loss) ===
+ source_amount | warehouse_amount | result 
+---------------+------------------+--------
+       1835.50 |          1835.50 | PASS
+(1 row)
+
+=== T2: orphan foreign keys (expect 0 rows in every column) ===
+ tx_bad_customer | tx_bad_account | tx_dates_ok | act_dates_ok | case_dates_ok | acct_customers_ok 
+-----------------+----------------+-------------+--------------+---------------+-------------------
+               0 |              0 |           6 |            6 |             4 |                 5
+(1 row)
+
+=== T3: duplicate natural keys (expect 0) ===
+ dup_tx | dup_act | dup_case | dup_acct 
+--------+---------+----------+----------
+      0 |       0 |        0 |        0
+(1 row)
+
+=== T4: identity resolution outcome (ambiguity must be visible, never auto-merged) ===
+ match_status | match_rule  | rows 
+--------------+-------------+------
+ ambiguous    | R2_EMAIL    |    2
+ matched      | R1_EXACT_ID |    5
+ matched      | R2_EMAIL    |    3
+ unmatched    | NONE        |    4
+(4 rows)
+
+--- T4b: the ambiguous rows in detail (P001 / P004 share one email with two S1 customers) ---
+ source_system | source_customer_id | customer_key | match_rule | match_status 
+---------------+--------------------+--------------+------------+--------------
+ S2            | P001               |              | R2_EMAIL   | ambiguous
+ S2            | P003               |              | NONE       | unmatched
+ S2            | P004               |              | R2_EMAIL   | ambiguous
+ S2            | P005               |              | NONE       | unmatched
+ S3            | U003               |              | NONE       | unmatched
+ S3            | U004               |              | NONE       | unmatched
+(6 rows)
+
+=== T4c: no customer_key is shared by two DIFFERENT people (name-only merging guard) ===
+ customer_key | distinct_names | result 
+--------------+----------------+--------
+(0 rows)
+
+=== audit: rejected rows and ETL run log ===
+ source_system | source_table | source_key |           reason            
+---------------+--------------+------------+-----------------------------
+ S2            | transactions | T0007      | unknown account_id (orphan)
+(1 row)
+
+ run_id |       step        | source_count | loaded_count | rejected_count 
+--------+-------------------+--------------+--------------+----------------
+      1 | fact_transaction  |            7 |            6 |              1
+      2 | fact_activity     |            6 |            6 |              0
+      3 | fact_service_case |            4 |            4 |              0
+(3 rows)
+
