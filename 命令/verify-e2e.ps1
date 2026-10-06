@@ -81,13 +81,20 @@ try {
   $up | Set-Content -LiteralPath (Join-Path $OutDir '00_compose_up.txt') -Encoding UTF8
   Note ('- docker compose up -d exit code: ' + $LASTEXITCODE)
 
+  # Readiness gate. `pg_isready` is NOT enough on a brand-new data directory: the postgres
+  # image first starts a TEMPORARY server to run initdb, and any connection landing in that
+  # window dies with "FATAL: the database system is shutting down". So we connect and ask for
+  # a real answer, and only accept it once the CURRENT server has been up for 10+ seconds
+  # (the temporary init server never lives that long).
   $ready = $false
-  for ($i = 0; $i -lt 30; $i++) {
-    docker compose exec -T postgres pg_isready -U student -d lab *> $null
-    if ($LASTEXITCODE -eq 0) { $ready = $true; break }
+  $state = 'no answer'
+  for ($i = 0; $i -lt 90; $i++) {
+    $probe = (& docker compose exec -T postgres psql -U student -d lab -tAc "select case when now() - pg_postmaster_start_time() > interval '10 seconds' then 'READY' else 'WARMUP' end" 2>&1 | Out-String).Trim()
+    if ($probe -eq 'READY') { $ready = $true; $state = 'ready (server up > 10s)'; break }
+    if ($probe -eq 'WARMUP') { $state = 'server up, waiting for it to settle' } else { $state = $probe }
     Start-Sleep -Seconds 2
   }
-  Note ('- postgres pg_isready: ' + $(if ($ready) { 'ready' } else { 'NOT READY' }))
+  Note ('- postgres readiness: ' + $state)
   if (-not $ready) { $failed = 1 }
 
   $build = @(
