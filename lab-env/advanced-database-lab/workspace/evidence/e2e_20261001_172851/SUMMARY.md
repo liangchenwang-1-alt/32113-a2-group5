@@ -1,7 +1,7 @@
-﻿# End-to-end verification run
+# End-to-end verification run
 
 - date: 2026-10-01 17:28:51
-- evidence folder: C:\Users\User\Desktop\AGENT\UTS学习区\32113\02_作业\A2\lab-env\advanced-database-lab\workspace\evidence\e2e_20261001_172851
+- evidence folder: workspace/evidence/e2e_20261001_172851 (relative to the Lab Environment folder)
 - method: docker compose exec -T postgres psql -v ON_ERROR_STOP=1 -U student -d lab (SQL via stdin)
 
 ## 1. containers
