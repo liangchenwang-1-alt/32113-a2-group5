@@ -1,0 +1,203 @@
+core_customer_id,payment_customer_id,digital_customer_id,expected_outcome,expected_group,notes
+C0001,P1001,D1001,MATCH,E0001,Exact DOB plus normalised email
+C0002,P1002,D1002,MATCH,E0002,Phone format differs
+C0003,P1003,,MATCH,E0003,No digital record
+C0004,,D1004,MATCH,E0004,No payment record
+C0005,P1005,D1005,MATCH,E0005,Phone is NULL; match on DOB and email
+C0006,P1006,D1006,MATCH,E0006,Match on date of birth and email
+C0007,P1007,D1007,MATCH,E0007,Match on date of birth and email
+C0008,P1008,D1008,MATCH,E0008,Match on date of birth and email
+C0009,P1009,D1009,MATCH,E0009,Match on date of birth and email
+C0010,P1010,D1010,MATCH,E0010,Case and whitespace differences
+C0011,P1011,D1011,MATCH,E0011,Ambiguous name shared with C0012; match on DOB and email
+C0012,P1012,D1012,MATCH,E0012,Ambiguous name shared with C0011; match on DOB and email
+C0013,P1013,D1013,MATCH,E0013,Match on date of birth and email
+C0014,P1014,D1014,MATCH,E0014,Match on date of birth and email
+C0015,P1015,,MATCH,E0015,No digital record
+C0016,P1016,D1016,MATCH,E0016,Match on date of birth and email
+C0017,P1017,D1017,MATCH,E0017,Match on date of birth and email
+C0018,P1018,D1018,MATCH,E0018,Match on date of birth and email
+C0019,P1019,D1019,MATCH,E0019,Match on date of birth and email
+C0020,,D1020,MATCH,E0020,No payment record
+C0021,P1021,D1021,MATCH,E0021,Match on date of birth and email
+C0022,P1022,D1022,MATCH,E0022,Match on date of birth and email
+C0023,P1023,D1023,MATCH,E0023,Match on date of birth and email
+C0024,P1024,D1024,MATCH,E0024,Match on date of birth and email
+C0025,P1025,D1025,MATCH,E0025,Match on date of birth and email
+C0026,P1026,D1026,MATCH,E0026,Match on date of birth and email
+C0027,P1027,D1027,MATCH,E0027,Match on date of birth and email
+C0028,P1028,D1028,MATCH,E0028,Match on date of birth and email
+C0029,P1029,D1029,MATCH,E0029,Match on date of birth and email
+C0030,P1030,,MATCH,E0030,No digital record
+C0031,P1031,D1031,MATCH,E0031,Match on date of birth and email
+C0032,P1032,D1032,MATCH,E0032,Match on date of birth and email
+C0033,P1033,D1033,MATCH,E0033,Match on date of birth and email
+C0034,P1034,D1034,MATCH,E0034,Match on date of birth and email
+C0035,P1035,D1035,MATCH,E0035,Match on date of birth and email
+C0036,P1036,D1036,MATCH,E0036,Match on date of birth and email
+C0037,P1037,D1037,MATCH,E0037,Match on date of birth and email
+C0038,P1038,D1038,MATCH,E0038,Match on date of birth and email
+C0039,P1039,D1039,MATCH,E0039,Match on date of birth and email
+C0040,,D1040,MATCH,E0040,No payment record
+C0041,P1041,D1041,MATCH,E0041,Match on date of birth and email
+C0042,P1042,D1042,MATCH,E0042,Match on date of birth and email
+C0043,P1043,D1043,MATCH,E0043,Match on date of birth and email
+C0044,P1044,D1044,MATCH,E0044,Match on date of birth and email
+C0045,P1045,,MATCH,E0045,No digital record
+C0046,P1046,D1046,MATCH,E0046,Match on date of birth and email
+C0047,P1047,D1047,MATCH,E0047,Match on date of birth and email
+C0048,P1048,D1048,MATCH,E0048,Match on date of birth and email
+C0049,P1049,D1049,MATCH,E0049,Match on date of birth and email
+C0050,P1050,D1050,MATCH,E0050,Match on date of birth and email
+C0051,P1051,D1051,MATCH,E0051,Match on date of birth and email
+C0052,P1052,D1052,MATCH,E0052,Match on date of birth and email
+C0053,P1053,D1053,MATCH,E0053,Match on date of birth and email
+C0054,P1054,D1054,MATCH,E0054,Match on date of birth and email
+C0055,P1055,D1055,MATCH,E0055,Match on date of birth and email
+C0056,P1056,D1056,MATCH,E0056,Match on date of birth and email
+C0057,P1057,D1057,MATCH,E0057,Match on date of birth and email
+C0058,P1058,D1058,MATCH,E0058,Match on date of birth and email
+C0059,P1059,D1059,MATCH,E0059,Match on date of birth and email
+C0060,,,CORE_ONLY,E0060,Present in Core Banking only
+C0061,P1061,D1061,MATCH,E0061,Match on date of birth and email
+C0062,P1062,D1062,MATCH,E0062,Match on date of birth and email
+C0063,P1063,D1063,MATCH,E0063,Match on date of birth and email
+C0064,P1064,D1064,MATCH,E0064,Match on date of birth and email
+C0065,P1065,D1065,MATCH,E0065,Match on date of birth and email
+C0066,P1066,D1066,MATCH,E0066,Match on date of birth and email
+C0067,P1067,D1067,MATCH,E0067,Match on date of birth and email
+C0068,P1068,D1068,MATCH,E0068,Match on date of birth and email
+C0069,P1069,D1069,MATCH,E0069,Match on date of birth and email
+C0070,P1070,D1070,MATCH,E0070,Match on date of birth and email
+C0071,P1071,D1071,MATCH,E0071,Match on date of birth and email
+C0072,P1072,D1072,MATCH,E0072,Match on date of birth and email
+C0073,P1073,D1073,MATCH,E0073,Match on date of birth and email
+C0074,P1074,D1074,MATCH,E0074,Match on date of birth and email
+C0075,P1075,,MATCH,E0075,No digital record
+C0076,P1076,D1076,MATCH,E0076,Match on date of birth and email
+C0077,P1077,D1077,MATCH,E0077,Match on date of birth and email
+C0078,P1078,D1078,MATCH,E0078,Match on date of birth and email
+C0079,P1079,D1079,MATCH,E0079,Match on date of birth and email
+C0080,,D1080,MATCH,E0080,No payment record
+C0081,P1081,D1081,MATCH,E0081,Match on date of birth and email
+C0082,P1082,D1082,MATCH,E0082,Match on date of birth and email
+C0083,P1083,D1083,MATCH,E0083,Match on date of birth and email
+C0084,P1084,D1084,MATCH,E0084,Match on date of birth and email
+C0085,P1085,D1085,MATCH,E0085,Match on date of birth and email
+C0086,P1086,D1086,MATCH,E0086,Match on date of birth and email
+C0087,P1087,D1087,MATCH,E0087,Match on date of birth and email
+C0088,P1088,D1088,MATCH,E0088,Match on date of birth and email
+C0089,P1089,D1089,MATCH,E0089,Match on date of birth and email
+C0090,P1090,,MATCH,E0090,No digital record
+C0091,P1091,D1091,MATCH,E0091,Match on date of birth and email
+C0092,P1092,D1092,MATCH,E0092,Match on date of birth and email
+C0093,P1093,D1093,MATCH,E0093,Match on date of birth and email
+C0094,P1094,D1094,MATCH,E0094,Match on date of birth and email
+C0095,P1095,D1095,MATCH,E0095,Match on date of birth and email
+C0096,P1096,D1096,MATCH,E0096,Match on date of birth and email
+C0097,P1097,D1097,MATCH,E0097,Match on date of birth and email
+C0098,P1098,D1098,MATCH,E0098,Match on date of birth and email
+C0099,P1099,D1099,MATCH,E0099,Match on date of birth and email
+C0100,,D1100,MATCH,E0100,No payment record
+C0101,P1101,D1101,MATCH,E0101,Match on date of birth and email
+C0102,P1102,D1102,MATCH,E0102,Match on date of birth and email
+C0103,P1103,D1103,MATCH,E0103,Match on date of birth and email
+C0104,P1104,D1104,MATCH,E0104,Match on date of birth and email
+C0105,P1105,,MATCH,E0105,No digital record
+C0106,P1106,D1106,MATCH,E0106,Match on date of birth and email
+C0107,P1107,D1107,MATCH,E0107,Match on date of birth and email
+C0108,P1108,D1108,MATCH,E0108,Match on date of birth and email
+C0109,P1109,D1109,MATCH,E0109,Match on date of birth and email
+C0110,P1110,D1110,MATCH,E0110,Match on date of birth and email
+C0111,P1111,D1111,MATCH,E0111,Match on date of birth and email
+C0112,P1112,D1112,MATCH,E0112,Match on date of birth and email
+C0113,P1113,D1113,MATCH,E0113,Match on date of birth and email
+C0114,P1114,D1114,MATCH,E0114,Match on date of birth and email
+C0115,P1115,D1115,MATCH,E0115,Match on date of birth and email
+C0116,P1116,D1116,MATCH,E0116,Match on date of birth and email
+C0117,P1117,D1117,MATCH,E0117,Match on date of birth and email
+C0118,P1118,D1118,MATCH,E0118,Match on date of birth and email
+C0119,P1119,D1119,MATCH,E0119,Match on date of birth and email
+C0120,,,CORE_ONLY,E0120,Present in Core Banking only
+C0121,P1121,D1121,MATCH,E0121,Match on date of birth and email
+C0122,P1122,D1122,MATCH,E0122,Match on date of birth and email
+C0123,P1123,D1123,MATCH,E0123,Match on date of birth and email
+C0124,P1124,D1124,MATCH,E0124,Match on date of birth and email
+C0125,P1125,D1125,MATCH,E0125,Match on date of birth and email
+C0126,P1126,D1126,MATCH,E0126,Match on date of birth and email
+C0127,P1127,D1127,MATCH,E0127,Match on date of birth and email
+C0128,P1128,D1128,MATCH,E0128,Match on date of birth and email
+C0129,P1129,D1129,MATCH,E0129,Match on date of birth and email
+C0130,P1130,D1130,MATCH,E0130,Match on date of birth and email
+C0131,P1131,D1131,MATCH,E0131,Match on date of birth and email
+C0132,P1132,D1132,MATCH,E0132,Match on date of birth and email
+C0133,P1133,D1133,MATCH,E0133,Match on date of birth and email
+C0134,P1134,D1134,MATCH,E0134,Match on date of birth and email
+C0135,P1135,,MATCH,E0135,No digital record
+C0136,P1136,D1136,MATCH,E0136,Match on date of birth and email
+C0137,P1137,D1137,MATCH,E0137,Match on date of birth and email
+C0138,P1138,D1138,MATCH,E0138,Match on date of birth and email
+C0139,P1139,D1139,MATCH,E0139,Match on date of birth and email
+C0140,,D1140,MATCH,E0140,No payment record
+C0141,P1141,D1141,MATCH,E0141,Match on date of birth and email
+C0142,P1142,D1142,MATCH,E0142,Match on date of birth and email
+C0143,P1143,D1143,MATCH,E0143,Match on date of birth and email
+C0144,P1144,D1144,MATCH,E0144,Match on date of birth and email
+C0145,P1145,D1145,MATCH,E0145,Match on date of birth and email
+C0146,P1146,D1146,MATCH,E0146,Match on date of birth and email
+C0147,P1147,D1147,MATCH,E0147,Match on date of birth and email
+C0148,P1148,D1148,MATCH,E0148,Match on date of birth and email
+C0149,P1149,D1149,MATCH,E0149,Match on date of birth and email
+C0150,P1150,,MATCH,E0150,No digital record
+C0151,P1151,D1151,MATCH,E0151,Match on date of birth and email
+C0152,P1152,D1152,MATCH,E0152,Match on date of birth and email
+C0153,P1153,D1153,MATCH,E0153,Match on date of birth and email
+C0154,P1154,D1154,MATCH,E0154,Match on date of birth and email
+C0155,P1155,D1155,MATCH,E0155,Match on date of birth and email
+C0156,P1156,D1156,MATCH,E0156,Match on date of birth and email
+C0157,P1157,D1157,MATCH,E0157,Match on date of birth and email
+C0158,P1158,D1158,MATCH,E0158,Match on date of birth and email
+C0159,P1159,D1159,MATCH,E0159,Match on date of birth and email
+C0160,,D1160,MATCH,E0160,No payment record
+C0161,P1161,D1161,MATCH,E0161,Match on date of birth and email
+C0162,P1162,D1162,MATCH,E0162,Match on date of birth and email
+C0163,P1163,D1163,MATCH,E0163,Match on date of birth and email
+C0164,P1164,D1164,MATCH,E0164,Match on date of birth and email
+C0165,P1165,,MATCH,E0165,No digital record
+C0166,P1166,D1166,MATCH,E0166,Match on date of birth and email
+C0167,P1167,D1167,MATCH,E0167,Match on date of birth and email
+C0168,P1168,D1168,MATCH,E0168,Match on date of birth and email
+C0169,P1169,D1169,MATCH,E0169,Match on date of birth and email
+C0170,P1170,D1170,MATCH,E0170,Match on date of birth and email
+C0171,P1171,D1171,MATCH,E0171,Match on date of birth and email
+C0172,P1172,D1172,MATCH,E0172,Match on date of birth and email
+C0173,P1173,D1173,MATCH,E0173,Match on date of birth and email
+C0174,P1174,D1174,MATCH,E0174,Match on date of birth and email
+C0175,P1175,D1175,MATCH,E0175,Match on date of birth and email
+C0176,P1176,D1176,MATCH,E0176,Match on date of birth and email
+C0177,P1177,D1177,MATCH,E0177,Match on date of birth and email
+C0178,P1178,D1178,MATCH,E0178,Match on date of birth and email
+C0179,P1179,D1179,MATCH,E0179,Match on date of birth and email
+C0180,,,CORE_ONLY,E0180,Present in Core Banking only
+C0181,P1181,D1181,MATCH,E0181,Match on date of birth and email
+C0182,P1182,D1182,MATCH,E0182,Match on date of birth and email
+C0183,P1183,D1183,MATCH,E0183,Match on date of birth and email
+C0184,P1184,D1184,MATCH,E0184,Match on date of birth and email
+C0185,P1185,D1185,MATCH,E0185,Match on date of birth and email
+C0186,P1186,D1186,MATCH,E0186,Match on date of birth and email
+C0187,P1187,D1187,MATCH,E0187,Match on date of birth and email
+C0188,P1188,D1188,MATCH,E0188,Match on date of birth and email
+C0189,P1189,D1189,MATCH,E0189,Match on date of birth and email
+C0190,P1190,D1190,MATCH,E0190,Match on date of birth and email
+C0191,P1191,D1191,MATCH,E0191,Match on date of birth and email
+C0192,P1192,D1192,MATCH,E0192,Match on date of birth and email
+C0193,P1193,D1193,MATCH,E0193,Match on date of birth and email
+C0194,P1194,D1194,MATCH,E0194,Match on date of birth and email
+C0195,P1195,,MATCH,E0195,No digital record
+C0196,P1196,D1196,MATCH,E0196,Match on date of birth and email
+C0197,P1197,D1197,MATCH,E0197,Match on date of birth and email
+C0198,P1198,D1198,MATCH,E0198,Match on date of birth and email
+C0199,P1199,D1199,MATCH,E0199,Match on date of birth and email
+C0200,,D1200,MATCH,E0200,No payment record
+,P8888,,AMBIGUOUS,,Name Alex Nguyen matches C0011 and C0012; DOB and email do not
+,P9999,,UNMATCHED,,No Core equivalent
