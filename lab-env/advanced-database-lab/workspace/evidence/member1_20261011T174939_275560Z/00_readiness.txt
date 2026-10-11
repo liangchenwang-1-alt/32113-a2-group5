@@ -1,0 +1,6 @@
+COMMAND: docker compose exec -T postgres pg_isready -U student -d lab
+EXIT: 0
+STDOUT:
+/var/run/postgresql:5432 - accepting connections
+
+STDERR:

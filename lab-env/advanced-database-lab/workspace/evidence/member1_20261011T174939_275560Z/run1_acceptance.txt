@@ -1,0 +1,7 @@
+COMMAND: docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 -P pager=off -U student -d lab
+EXIT: 3
+STDOUT:
+
+STDERR:
+ERROR:  Valid transaction account was not linked: load dim_account before facts
+CONTEXT:  PL/pgSQL function inline_code_block line 26 at RAISE

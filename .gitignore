@@ -39,3 +39,7 @@
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# 8) Python bytecode
+__pycache__/
+*.pyc
