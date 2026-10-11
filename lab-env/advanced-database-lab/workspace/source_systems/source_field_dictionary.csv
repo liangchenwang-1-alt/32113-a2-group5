@@ -1,66 +1,65 @@
 source_system,table_name,column_name,data_type,key_type,nullable,description,example_value,downstream_use
-CBA_CORE_BANKING,CUSTOMER,customer_id,VARCHAR(20),PK,N,Core customer key in format C####. Synthetic.,C0001,Customer dimension natural key and customer_xref source key
-CBA_CORE_BANKING,CUSTOMER,first_name,VARCHAR(50),,N,Given name. Not unique. Fixture names may be edited for matching tests.,Olivia,Identity candidate after trim and case normalisation
-CBA_CORE_BANKING,CUSTOMER,last_name,VARCHAR(50),,N,Family name. Not unique. Do not match on name alone.,Nguyen,Identity candidate after trim and case normalisation
-CBA_CORE_BANKING,CUSTOMER,date_of_birth,DATE,,N,Date of birth used for customer matching.,1991-04-12,Identity match key with normalised email or phone
-CBA_CORE_BANKING,CUSTOMER,email,VARCHAR(120),,Y,Optional email. Compare only after case normalisation.,olivia.nguyen@example.test,Identity match key
-CBA_CORE_BANKING,CUSTOMER,phone,VARCHAR(30),,Y,Optional phone. Formats are not standardised. C0005 is null.,0412001001,Identity match key after phone normalisation
-CBA_CORE_BANKING,CUSTOMER,address_line,VARCHAR(150),,Y,Optional synthetic street address.,11 Synthetic Avenue,Customer dimension address attribute
-CBA_CORE_BANKING,CUSTOMER,suburb,VARCHAR(80),,Y,Optional Australian suburb. Synthetic.,Sydney,Customer dimension address attribute
-CBA_CORE_BANKING,CUSTOMER,state,VARCHAR(10),,Y,Optional Australian state or territory code.,NSW,Customer dimension address attribute
-CBA_CORE_BANKING,CUSTOMER,postcode,VARCHAR(10),,Y,Optional Australian postcode stored as text so leading zeros remain.,2000,Customer dimension address attribute
-CBA_CORE_BANKING,CUSTOMER,customer_segment,VARCHAR(30),,N,RETAIL BUSINESS or PREMIUM.,RETAIL,Customer dimension segment attribute
-CBA_CORE_BANKING,CUSTOMER,created_date,DATE,,N,Date the core profile was created.,2018-01-12,Customer dimension registration date
-CBA_CORE_BANKING,CUSTOMER,status,VARCHAR(20),,N,ACTIVE or INACTIVE. Not the account status domain.,ACTIVE,Customer dimension status attribute
-CBA_CORE_BANKING,ACCOUNT,account_id,VARCHAR(20),PK,N,Account key in format A#####. Synthetic.,A00001,Account dimension natural key
-CBA_CORE_BANKING,ACCOUNT,account_type,VARCHAR(30),,N,TRANSACTION SAVINGS CREDIT or HOME_LOAN.,TRANSACTION,Account dimension type attribute
-CBA_CORE_BANKING,ACCOUNT,product_name,VARCHAR(80),,N,Fictional product label. Not a real CBA product.,Synthetic Everyday Access,Account dimension product attribute
-CBA_CORE_BANKING,ACCOUNT,open_date,DATE,,N,Date the account was opened.,2018-01-15,Account dimension open date
-CBA_CORE_BANKING,ACCOUNT,balance,"NUMBER(15,2)",,N,Current AUD balance. Credit and home-loan balances are negative outstanding amounts.,267.01,Account balance measure
-CBA_CORE_BANKING,ACCOUNT,currency,VARCHAR(3),,N,Always AUD in this prototype.,AUD,Currency code for monetary measures
-CBA_CORE_BANKING,ACCOUNT,status,VARCHAR(20),,N,ACTIVE or CLOSED.,ACTIVE,Account dimension status attribute
-CBA_CORE_BANKING,CUSTOMER_ACCOUNT,customer_id,VARCHAR(20),COMPOSITE_PK,N,Logical reference to CUSTOMER. Not an enforced foreign key.,C0001,Bridge from customer dimension to account
-CBA_CORE_BANKING,CUSTOMER_ACCOUNT,account_id,VARCHAR(20),COMPOSITE_PK,N,Logical reference to ACCOUNT. Not an enforced foreign key.,A00001,Bridge from account dimension to customer
-CBA_CORE_BANKING,CUSTOMER_ACCOUNT,ownership_type,VARCHAR(20),,N,PRIMARY only in this prototype. One owner per account.,PRIMARY,Relationship type on the customer-account bridge
-CBA_CORE_BANKING,CUSTOMER_ACCOUNT,relationship_from,DATE,,N,Start date of the ownership. Equal to the account open date here.,2018-01-15,Bridge effective start date
-CBA_PAYMENTS,PAYMENT_CUSTOMER,payment_customer_id,VARCHAR(20),PK,N,Payments customer key in format P####. Not a core customer id.,P1001,customer_xref payments source key
-CBA_PAYMENTS,PAYMENT_CUSTOMER,first_name,VARCHAR(50),,N,Given name. May differ in case or spacing from Core Banking.,Olivia,Identity candidate after trim and case normalisation
-CBA_PAYMENTS,PAYMENT_CUSTOMER,last_name,VARCHAR(50),,N,Family name. May differ in case or spacing from Core Banking.,Nguyen,Identity candidate after trim and case normalisation
-CBA_PAYMENTS,PAYMENT_CUSTOMER,date_of_birth,DATE,,N,Date of birth used for controlled matching.,1991-04-12,Identity match key
-CBA_PAYMENTS,PAYMENT_CUSTOMER,email,VARCHAR(120),,Y,Optional email. P1001 differs from core by case only.,Olivia.Nguyen@EXAMPLE.TEST,Identity match key after case normalisation
-CBA_PAYMENTS,PAYMENT_CUSTOMER,phone,VARCHAR(30),,Y,Optional phone. P1002 uses international formatting. P1005 and P8888 are null.,+61 412 345 678,Identity match key after phone normalisation
-CBA_PAYMENTS,PAYMENT_CUSTOMER,registered_date,DATE,,N,Date the payments profile was registered.,2018-01-12,Payments customer registration date
-CBA_PAYMENTS,TRANSACTION,transaction_id,VARCHAR(30),PK,N,Transaction row key in format T######. One row per payment transaction.,T000001,Transaction fact primary key
-CBA_PAYMENTS,TRANSACTION,source_transaction_ref,VARCHAR(30),,N,Business reference used for duplicate detection. Not unique. BREF-000100 occurs twice.,BREF-000001,Degenerate dimension for duplicate detection
-CBA_PAYMENTS,TRANSACTION,payment_customer_id,VARCHAR(20),LOGICAL_FK,N,Logical reference to PAYMENT_CUSTOMER. T002002 uses unknown id P0000.,P1001,Fact foreign key to payments customer then customer_xref
-CBA_PAYMENTS,TRANSACTION,account_id,VARCHAR(20),LOGICAL_FK,N,Core-style account id for later integration. Not a foreign key. T000250 uses A99999.,A00001,Fact reference to account dimension with reject handling
-CBA_PAYMENTS,TRANSACTION,transaction_ts,TIMESTAMP_NTZ,,N,Event timestamp with no time zone. Window is 2026-01-01 through 2026-03-31.,2026-01-01 00:17:00,Transaction fact event timestamp
-CBA_PAYMENTS,TRANSACTION,transaction_type,VARCHAR(30),,N,TRANSFER PURCHASE WITHDRAWAL DEPOSIT or BILL_PAYMENT.,PURCHASE,Transaction fact type attribute
-CBA_PAYMENTS,TRANSACTION,amount,"NUMBER(15,2)",,N,Positive AUD amount. Direction is stored in transaction_type.,25.01,Transaction fact amount measure
-CBA_PAYMENTS,TRANSACTION,currency,VARCHAR(3),,N,Always AUD in this prototype.,AUD,Currency code for the transaction amount
-CBA_PAYMENTS,TRANSACTION,channel,VARCHAR(30),,N,MOBILE WEB ATM BRANCH or CARD.,WEB,Transaction fact channel attribute
-CBA_PAYMENTS,TRANSACTION,merchant_category,VARCHAR(50),,N,Synthetic merchant grouping. Non-purchases use INTERNAL CASH or BILLERS.,FUEL,Transaction fact merchant attribute
-CBA_PAYMENTS,TRANSACTION,status,VARCHAR(20),,N,ACCEPTED DECLINED or REVERSED.,ACCEPTED,Transaction fact status attribute
-CBA_DIGITAL_SERVICE,DIGITAL_CUSTOMER,digital_customer_id,VARCHAR(20),PK,N,Digital customer key in format D####. Not a core or payments id.,D1001,customer_xref digital source key
-CBA_DIGITAL_SERVICE,DIGITAL_CUSTOMER,first_name,VARCHAR(50),,N,Given name. May differ in case or spacing from other sources.,Olivia,Identity candidate after trim and case normalisation
-CBA_DIGITAL_SERVICE,DIGITAL_CUSTOMER,last_name,VARCHAR(50),,N,Family name. May differ in case or spacing from other sources.,Nguyen,Identity candidate after trim and case normalisation
-CBA_DIGITAL_SERVICE,DIGITAL_CUSTOMER,date_of_birth,DATE,,N,Date of birth used for controlled matching.,1991-04-12,Identity match key
-CBA_DIGITAL_SERVICE,DIGITAL_CUSTOMER,email,VARCHAR(120),,Y,Optional email. D1001 differs from core by case only.,OLIVIA.NGUYEN@example.test,Identity match key after case normalisation
-CBA_DIGITAL_SERVICE,DIGITAL_CUSTOMER,phone,VARCHAR(30),,Y,Optional phone. D1002 uses spaced local formatting. D1005 is null.,0412001001,Identity match key after phone normalisation
-CBA_DIGITAL_SERVICE,DIGITAL_CUSTOMER,signup_date,DATE,,N,Date the digital profile was created.,2018-01-12,Digital customer registration date
-CBA_DIGITAL_SERVICE,DIGITAL_CUSTOMER,preferred_channel,VARCHAR(30),,N,MOBILE WEB BRANCH or CALL_CENTRE.,MOBILE,Channel preference attribute for engagement reporting
-CBA_DIGITAL_SERVICE,ACTIVITY,activity_id,VARCHAR(30),PK,N,Activity row key in format ACT######. One row per digital event.,ACT000001,Digital activity fact primary key
-CBA_DIGITAL_SERVICE,ACTIVITY,digital_customer_id,VARCHAR(20),LOGICAL_FK,N,Logical reference to DIGITAL_CUSTOMER. ACT000050 uses unknown id D0000.,D1001,Fact foreign key to digital customer then customer_xref
-CBA_DIGITAL_SERVICE,ACTIVITY,activity_ts,TIMESTAMP_NTZ,,N,Event timestamp with no time zone.,2026-01-01 00:41:00,Activity fact event timestamp
-CBA_DIGITAL_SERVICE,ACTIVITY,channel,VARCHAR(30),,N,MOBILE or WEB.,MOBILE,Activity fact channel attribute
-CBA_DIGITAL_SERVICE,ACTIVITY,activity_type,VARCHAR(50),,N,LOGIN VIEW_ACCOUNT TRANSFER_FUNDS VIEW_TRANSACTION UPDATE_PROFILE or PAY_BILL.,VIEW_ACCOUNT,Activity fact type attribute
-CBA_DIGITAL_SERVICE,ACTIVITY,device_type,VARCHAR(30),,N,MOBILE TABLET or DESKTOP.,TABLET,Activity fact device attribute
-CBA_DIGITAL_SERVICE,ACTIVITY,session_minutes,"NUMBER(8,2)",,N,Positive session length in minutes.,4.25,Activity fact duration measure
-CBA_DIGITAL_SERVICE,SERVICE_CASE,case_id,VARCHAR(30),PK,N,Service case row key in format SC#####. One row per case.,SC00001,Service case fact primary key
-CBA_DIGITAL_SERVICE,SERVICE_CASE,digital_customer_id,VARCHAR(20),LOGICAL_FK,N,Logical reference to DIGITAL_CUSTOMER. SC00020 uses unknown id D0000.,D1001,Fact foreign key to digital customer then customer_xref
-CBA_DIGITAL_SERVICE,SERVICE_CASE,opened_ts,TIMESTAMP_NTZ,,N,Timestamp the case was opened. No time zone.,2026-01-01 00:53:00,Service case fact open timestamp
-CBA_DIGITAL_SERVICE,SERVICE_CASE,closed_ts,TIMESTAMP_NTZ,,Y,Timestamp the case was closed. Null when status is OPEN or IN_PROGRESS.,2026-01-02 04:46:00,Service case fact close timestamp and duration
-CBA_DIGITAL_SERVICE,SERVICE_CASE,channel,VARCHAR(30),,N,CALL_CENTRE BRANCH MOBILE or WEB.,BRANCH,Service case fact channel attribute
-CBA_DIGITAL_SERVICE,SERVICE_CASE,case_type,VARCHAR(50),,N,CARD_ISSUE ACCOUNT_QUERY TRANSACTION_DISPUTE LOGIN_PROBLEM LOAN_ENQUIRY or GENERAL_ENQUIRY.,ACCOUNT_QUERY,Service case fact type attribute
-CBA_DIGITAL_SERVICE,SERVICE_CASE,priority,VARCHAR(20),,N,LOW MEDIUM or HIGH.,MEDIUM,Service case fact priority attribute
-CBA_DIGITAL_SERVICE,SERVICE_CASE,status,VARCHAR(20),,N,OPEN CLOSED or IN_PROGRESS.,IN_PROGRESS,Service case fact status attribute
+s1_core,customer,customer_id,VARCHAR(20),PK,N,Core customer key in format C####. Synthetic.,C0001,Customer dimension natural key and customer_xref source key
+s1_core,customer,first_name,VARCHAR(50),,N,Given name. Not unique. Fixture names may be edited for matching tests.,Olivia,Identity candidate after trim and case normalisation
+s1_core,customer,last_name,VARCHAR(50),,N,Family name. Not unique. Do not match on name alone.,Nguyen,Identity candidate after trim and case normalisation
+s1_core,customer,date_of_birth,DATE,,N,Date of birth used for customer matching.,1991-04-12,Identity match key with normalised email or phone
+s1_core,customer,email,VARCHAR(120),,Y,Optional email. Compare only after case normalisation.,olivia.nguyen@example.test,Identity match key
+s1_core,customer,phone,VARCHAR(30),,Y,Optional phone. Formats are not standardised. C0005 is null.,0412001001,Identity match key after phone normalisation
+s1_core,customer,address_line,VARCHAR(150),,Y,Optional synthetic street address.,11 Synthetic Avenue,Customer dimension address attribute
+s1_core,customer,suburb,VARCHAR(80),,Y,Optional Australian suburb. Synthetic.,Sydney,Customer dimension address attribute
+s1_core,customer,state,VARCHAR(10),,Y,Optional Australian state or territory code.,NSW,Customer dimension address attribute
+s1_core,customer,postcode,VARCHAR(10),,Y,Optional Australian postcode stored as text so leading zeros remain.,2000,Customer dimension address attribute
+s1_core,customer,customer_segment,VARCHAR(30),,N,RETAIL BUSINESS or PREMIUM.,RETAIL,Customer dimension segment attribute
+s1_core,customer,created_date,DATE,,N,Date the core profile was created.,2018-01-12,Customer dimension registration date
+s1_core,customer,status,VARCHAR(20),,N,ACTIVE or INACTIVE. Not the account status domain.,ACTIVE,Customer dimension status attribute
+s1_core,account,account_id,VARCHAR(20),PK,N,Account key in format A#####. Synthetic.,A00001,Account dimension natural key
+s1_core,account,account_type,VARCHAR(30),,N,TRANSACTION SAVINGS CREDIT or HOME_LOAN.,TRANSACTION,Account dimension type attribute
+s1_core,account,product_name,VARCHAR(80),,N,Fictional product label. Not a real CBA product.,Synthetic Everyday Access,Account dimension product attribute
+s1_core,account,open_date,DATE,,N,Date the account was opened.,2018-01-15,Account dimension open date
+s1_core,account,balance,"NUMERIC(15,2)",,N,Current AUD balance. Credit and home-loan balances are negative outstanding amounts.,267.01,Account balance measure
+s1_core,account,currency,VARCHAR(3),,N,Always AUD in this prototype.,AUD,Currency code for monetary measures
+s1_core,account,status,VARCHAR(20),,N,ACTIVE or CLOSED.,ACTIVE,Account dimension status attribute
+s1_core,customer_account,customer_id,VARCHAR(20),COMPOSITE_PK,N,Logical reference to CUSTOMER. Not an enforced foreign key.,C0001,Bridge from customer dimension to account
+s1_core,customer_account,account_id,VARCHAR(20),COMPOSITE_PK,N,Logical reference to ACCOUNT. Not an enforced foreign key.,A00001,Bridge from account dimension to customer
+s1_core,customer_account,ownership_type,VARCHAR(20),,N,PRIMARY only in this prototype. One owner per account.,PRIMARY,Relationship type on the customer-account bridge
+s1_core,customer_account,relationship_from,DATE,,N,Start date of the ownership. Equal to the account open date here.,2018-01-15,Bridge effective start date
+s2_payments,payment_customer,payment_customer_id,VARCHAR(20),PK,N,Payments customer key in format P####. Not a core customer id.,P1001,customer_xref payments source key
+s2_payments,payment_customer,first_name,VARCHAR(50),,N,Given name. May differ in case or spacing from Core Banking.,Olivia,Identity candidate after trim and case normalisation
+s2_payments,payment_customer,last_name,VARCHAR(50),,N,Family name. May differ in case or spacing from Core Banking.,Nguyen,Identity candidate after trim and case normalisation
+s2_payments,payment_customer,date_of_birth,DATE,,N,Date of birth used for controlled matching.,1991-04-12,Identity match key
+s2_payments,payment_customer,email,VARCHAR(120),,Y,Optional email. P1001 differs from core by case only.,Olivia.Nguyen@EXAMPLE.TEST,Identity match key after case normalisation
+s2_payments,payment_customer,phone,VARCHAR(30),,Y,Optional phone. P1002 uses international formatting. P1005 and P8888 are null.,+61 412 345 678,Identity match key after phone normalisation
+s2_payments,payment_customer,registered_date,DATE,,N,Date the payments profile was registered.,2018-01-12,Payments customer registration date
+s2_payments,transaction,transaction_id,VARCHAR(30),PK,N,Transaction row key in format T######. One row per payment transaction.,T000001,Transaction fact primary key
+s2_payments,transaction,source_transaction_ref,VARCHAR(30),,N,Business reference used for duplicate detection. Not unique. BREF-000100 occurs twice.,BREF-000001,Degenerate dimension for duplicate detection
+s2_payments,transaction,payment_customer_id,VARCHAR(20),LOGICAL_FK,N,Logical reference to PAYMENT_CUSTOMER. T002002 uses unknown id P0000.,P1001,Fact foreign key to payments customer then customer_xref
+s2_payments,transaction,account_id,VARCHAR(20),LOGICAL_FK,N,Core-style account id for later integration. Not a foreign key. T000250 uses A99999.,A00001,Fact reference to account dimension with reject handling
+s2_payments,transaction,transaction_ts,TIMESTAMP,,N,Event timestamp with no time zone. Window is 2026-01-01 through 2026-03-31.,2026-01-01 00:17:00,Transaction fact event timestamp
+s2_payments,transaction,transaction_type,VARCHAR(30),,N,TRANSFER PURCHASE WITHDRAWAL DEPOSIT or BILL_PAYMENT.,PURCHASE,Transaction fact type attribute
+s2_payments,transaction,amount,"NUMERIC(15,2)",,N,Positive AUD amount. Direction is stored in transaction_type.,25.01,Transaction fact amount measure
+s2_payments,transaction,currency,VARCHAR(3),,N,Always AUD in this prototype.,AUD,Currency code for the transaction amount
+s2_payments,transaction,channel,VARCHAR(30),,N,MOBILE WEB ATM BRANCH or CARD.,WEB,Transaction fact channel attribute
+s2_payments,transaction,merchant_category,VARCHAR(50),,N,Synthetic merchant grouping. Non-purchases use INTERNAL CASH or BILLERS.,FUEL,Transaction fact merchant attribute
+s2_payments,transaction,status,VARCHAR(20),,N,ACCEPTED DECLINED or REVERSED.,ACCEPTED,Transaction fact status attribute
+s3_digital,digital_customer,digital_customer_id,VARCHAR(20),PK,N,Digital customer key in format D####. Not a core or payments id.,D1001,customer_xref digital source key
+s3_digital,digital_customer,first_name,VARCHAR(50),,N,Given name. May differ in case or spacing from other sources.,Olivia,Identity candidate after trim and case normalisation
+s3_digital,digital_customer,last_name,VARCHAR(50),,N,Family name. May differ in case or spacing from other sources.,Nguyen,Identity candidate after trim and case normalisation
+s3_digital,digital_customer,date_of_birth,DATE,,N,Date of birth used for controlled matching.,1991-04-12,Identity match key
+s3_digital,digital_customer,email,VARCHAR(120),,Y,Optional email. D1001 differs from core by case only.,OLIVIA.NGUYEN@example.test,Identity match key after case normalisation
+s3_digital,digital_customer,phone,VARCHAR(30),,Y,Optional phone. D1002 uses spaced local formatting. D1005 is null.,0412001001,Identity match key after phone normalisation
+s3_digital,digital_customer,signup_date,DATE,,N,Date the digital profile was created.,2018-01-12,Digital customer registration date
+s3_digital,digital_customer,preferred_channel,VARCHAR(30),,N,MOBILE WEB BRANCH or CALL_CENTRE.,MOBILE,Channel preference attribute for engagement reporting
+s3_digital,activity,activity_id,VARCHAR(30),PK,N,Activity row key in format ACT######. One row per digital event.,ACT000001,Digital activity fact primary key
+s3_digital,activity,digital_customer_id,VARCHAR(20),LOGICAL_FK,N,Logical reference to DIGITAL_CUSTOMER. ACT000050 uses unknown id D0000.,D1001,Fact foreign key to digital customer then customer_xref
+s3_digital,activity,activity_ts,TIMESTAMP,,N,Event timestamp with no time zone.,2026-01-01 00:41:00,Activity fact event timestamp
+s3_digital,activity,channel,VARCHAR(30),,N,MOBILE or WEB.,MOBILE,Activity fact channel attribute
+s3_digital,activity,activity_type,VARCHAR(50),,N,LOGIN VIEW_ACCOUNT TRANSFER_FUNDS VIEW_TRANSACTION UPDATE_PROFILE or PAY_BILL.,VIEW_ACCOUNT,Activity fact type attribute
+s3_digital,activity,device_type,VARCHAR(30),,N,MOBILE TABLET or DESKTOP.,TABLET,Activity fact device attribute
+s3_digital,activity,session_minutes,"NUMERIC(8,2)",,N,Positive session length in minutes.,4.25,Activity fact duration measure
+s3_digital,service_case,case_id,VARCHAR(30),PK,N,Service case row key in format SC#####. One row per case.,SC00001,Service case fact primary key
+s3_digital,service_case,digital_customer_id,VARCHAR(20),LOGICAL_FK,N,Logical reference to DIGITAL_CUSTOMER. SC00020 uses unknown id D0000.,D1001,Fact foreign key to digital customer then customer_xref
+s3_digital,service_case,opened_ts,TIMESTAMP,,N,Timestamp the case was opened. No time zone.,2026-01-01 00:53:00,Service case fact open timestamp
+s3_digital,service_case,closed_ts,TIMESTAMP,,Y,Timestamp the case was closed. Null when status is OPEN or IN_PROGRESS.,2026-01-02 04:46:00,Service case fact close timestamp and duration
+s3_digital,service_case,case_type,VARCHAR(50),,N,CARD_ISSUE ACCOUNT_QUERY TRANSACTION_DISPUTE LOGIN_PROBLEM LOAN_ENQUIRY or GENERAL_ENQUIRY.,ACCOUNT_QUERY,Service case fact type attribute
+s3_digital,service_case,priority,VARCHAR(20),,N,LOW MEDIUM or HIGH.,MEDIUM,Service case fact priority attribute
+s3_digital,service_case,status,VARCHAR(20),,N,OPEN CLOSED or IN_PROGRESS.,IN_PROGRESS,Service case fact status attribute

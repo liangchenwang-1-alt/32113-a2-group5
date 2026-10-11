@@ -35,30 +35,30 @@
 -- =============================================================================
 
 -- Re-running this file must not stack extra fixture rows.
-DELETE FROM CBA_PAYMENTS.PAYMENT_SRC.TRANSACTION
+DELETE FROM s2_payments.transaction
 WHERE transaction_id IN ('T002001', 'T002002');
 
-DELETE FROM CBA_PAYMENTS.PAYMENT_SRC.TRANSACTION
+DELETE FROM s2_payments.transaction
 WHERE payment_customer_id IN ('P9999', 'P8888');
 
-DELETE FROM CBA_PAYMENTS.PAYMENT_SRC.PAYMENT_CUSTOMER
+DELETE FROM s2_payments.payment_customer
 WHERE payment_customer_id IN ('P9999', 'P8888');
 
 -- EC-14 safety net. 07 already skips D1003; this keeps the fixture if it exists.
-DELETE FROM CBA_DIGITAL_SERVICE.DIGITAL_SRC.SERVICE_CASE
+DELETE FROM s3_digital.service_case
 WHERE digital_customer_id = 'D1003';
 
-DELETE FROM CBA_DIGITAL_SERVICE.DIGITAL_SRC.ACTIVITY
+DELETE FROM s3_digital.activity
 WHERE digital_customer_id = 'D1003';
 
-DELETE FROM CBA_DIGITAL_SERVICE.DIGITAL_SRC.DIGITAL_CUSTOMER
+DELETE FROM s3_digital.digital_customer
 WHERE digital_customer_id = 'D1003';
 
 -- EC-15 safety net. 06 already skips P1004.
-DELETE FROM CBA_PAYMENTS.PAYMENT_SRC.TRANSACTION
+DELETE FROM s2_payments.transaction
 WHERE payment_customer_id = 'P1004';
 
-DELETE FROM CBA_PAYMENTS.PAYMENT_SRC.PAYMENT_CUSTOMER
+DELETE FROM s2_payments.payment_customer
 WHERE payment_customer_id = 'P1004';
 
 -- -----------------------------------------------------------------------------
@@ -68,7 +68,7 @@ WHERE payment_customer_id = 'P1004';
 --   Payments: Olivia.Nguyen@EXAMPLE.TEST
 --   Digital:  OLIVIA.NGUYEN@example.test
 -- -----------------------------------------------------------------------------
-UPDATE CBA_CORE_BANKING.CORE.CUSTOMER
+UPDATE s1_core.customer
 SET first_name = 'Olivia',
     last_name = 'Nguyen',
     date_of_birth = DATE '1991-04-12',
@@ -76,7 +76,7 @@ SET first_name = 'Olivia',
     phone = '0412001001'
 WHERE customer_id = 'C0001';
 
-UPDATE CBA_PAYMENTS.PAYMENT_SRC.PAYMENT_CUSTOMER
+UPDATE s2_payments.payment_customer
 SET first_name = 'Olivia',
     last_name = 'Nguyen',
     date_of_birth = DATE '1991-04-12',
@@ -84,7 +84,7 @@ SET first_name = 'Olivia',
     phone = '0412001001'
 WHERE payment_customer_id = 'P1001';
 
-UPDATE CBA_DIGITAL_SERVICE.DIGITAL_SRC.DIGITAL_CUSTOMER
+UPDATE s3_digital.digital_customer
 SET first_name = 'Olivia',
     last_name = 'Nguyen',
     date_of_birth = DATE '1991-04-12',
@@ -99,7 +99,7 @@ WHERE digital_customer_id = 'D1001';
 --   Payments: +61 412 345 678
 --   Digital:  0412 345 678
 -- -----------------------------------------------------------------------------
-UPDATE CBA_CORE_BANKING.CORE.CUSTOMER
+UPDATE s1_core.customer
 SET first_name = 'Liam',
     last_name = 'Patel',
     date_of_birth = DATE '1988-11-03',
@@ -107,7 +107,7 @@ SET first_name = 'Liam',
     phone = '0412345678'
 WHERE customer_id = 'C0002';
 
-UPDATE CBA_PAYMENTS.PAYMENT_SRC.PAYMENT_CUSTOMER
+UPDATE s2_payments.payment_customer
 SET first_name = 'Liam',
     last_name = 'Patel',
     date_of_birth = DATE '1988-11-03',
@@ -115,7 +115,7 @@ SET first_name = 'Liam',
     phone = '+61 412 345 678'
 WHERE payment_customer_id = 'P1002';
 
-UPDATE CBA_DIGITAL_SERVICE.DIGITAL_SRC.DIGITAL_CUSTOMER
+UPDATE s3_digital.digital_customer
 SET first_name = 'Liam',
     last_name = 'Patel',
     date_of_birth = DATE '1988-11-03',
@@ -128,15 +128,15 @@ WHERE digital_customer_id = 'D1002';
 -- date of birth and email. Generated identity for C0005 / P1005 / D1005
 -- stays Isla Williams, isla.williams.c0005@example.test. Only phone is cleared.
 -- -----------------------------------------------------------------------------
-UPDATE CBA_CORE_BANKING.CORE.CUSTOMER
+UPDATE s1_core.customer
 SET phone = NULL
 WHERE customer_id = 'C0005';
 
-UPDATE CBA_PAYMENTS.PAYMENT_SRC.PAYMENT_CUSTOMER
+UPDATE s2_payments.payment_customer
 SET phone = NULL
 WHERE payment_customer_id = 'P1005';
 
-UPDATE CBA_DIGITAL_SERVICE.DIGITAL_SRC.DIGITAL_CUSTOMER
+UPDATE s3_digital.digital_customer
 SET phone = NULL
 WHERE digital_customer_id = 'D1005';
 
@@ -150,7 +150,7 @@ WHERE digital_customer_id = 'D1005';
 --   Payments last_name:  SMITH        (case only)
 --   Digital first_name:  JOHN         (case only)
 -- -----------------------------------------------------------------------------
-UPDATE CBA_CORE_BANKING.CORE.CUSTOMER
+UPDATE s1_core.customer
 SET first_name = 'John',
     last_name = 'Smith',
     date_of_birth = DATE '1986-06-15',
@@ -158,7 +158,7 @@ SET first_name = 'John',
     phone = '0412001010'
 WHERE customer_id = 'C0010';
 
-UPDATE CBA_PAYMENTS.PAYMENT_SRC.PAYMENT_CUSTOMER
+UPDATE s2_payments.payment_customer
 SET first_name = ' John ',
     last_name = 'SMITH',
     date_of_birth = DATE '1986-06-15',
@@ -166,7 +166,7 @@ SET first_name = ' John ',
     phone = '0412001010'
 WHERE payment_customer_id = 'P1010';
 
-UPDATE CBA_DIGITAL_SERVICE.DIGITAL_SRC.DIGITAL_CUSTOMER
+UPDATE s3_digital.digital_customer
 SET first_name = 'JOHN',
     last_name = ' Smith ',
     date_of_birth = DATE '1986-06-15',
@@ -179,7 +179,7 @@ WHERE digital_customer_id = 'D1010';
 -- Date of birth and email are different, so name alone must not decide identity.
 -- Their own payment and digital profiles match each person exactly.
 -- -----------------------------------------------------------------------------
-UPDATE CBA_CORE_BANKING.CORE.CUSTOMER
+UPDATE s1_core.customer
 SET first_name = 'Alex',
     last_name = 'Nguyen',
     date_of_birth = DATE '1990-03-15',
@@ -187,7 +187,7 @@ SET first_name = 'Alex',
     phone = '0411110011'
 WHERE customer_id = 'C0011';
 
-UPDATE CBA_PAYMENTS.PAYMENT_SRC.PAYMENT_CUSTOMER
+UPDATE s2_payments.payment_customer
 SET first_name = 'Alex',
     last_name = 'Nguyen',
     date_of_birth = DATE '1990-03-15',
@@ -195,7 +195,7 @@ SET first_name = 'Alex',
     phone = '0411110011'
 WHERE payment_customer_id = 'P1011';
 
-UPDATE CBA_DIGITAL_SERVICE.DIGITAL_SRC.DIGITAL_CUSTOMER
+UPDATE s3_digital.digital_customer
 SET first_name = 'Alex',
     last_name = 'Nguyen',
     date_of_birth = DATE '1990-03-15',
@@ -203,7 +203,7 @@ SET first_name = 'Alex',
     phone = '0411110011'
 WHERE digital_customer_id = 'D1011';
 
-UPDATE CBA_CORE_BANKING.CORE.CUSTOMER
+UPDATE s1_core.customer
 SET first_name = 'Alex',
     last_name = 'Nguyen',
     date_of_birth = DATE '1985-07-22',
@@ -211,7 +211,7 @@ SET first_name = 'Alex',
     phone = '0411110012'
 WHERE customer_id = 'C0012';
 
-UPDATE CBA_PAYMENTS.PAYMENT_SRC.PAYMENT_CUSTOMER
+UPDATE s2_payments.payment_customer
 SET first_name = 'Alex',
     last_name = 'Nguyen',
     date_of_birth = DATE '1985-07-22',
@@ -219,7 +219,7 @@ SET first_name = 'Alex',
     phone = '0411110012'
 WHERE payment_customer_id = 'P1012';
 
-UPDATE CBA_DIGITAL_SERVICE.DIGITAL_SRC.DIGITAL_CUSTOMER
+UPDATE s3_digital.digital_customer
 SET first_name = 'Alex',
     last_name = 'Nguyen',
     date_of_birth = DATE '1985-07-22',
@@ -232,7 +232,7 @@ WHERE digital_customer_id = 'D1012';
 -- EC-09 continued. P8888 uses the shared name Alex Nguyen, but the date of
 -- birth and email match neither C0011 nor C0012.
 -- -----------------------------------------------------------------------------
-INSERT INTO CBA_PAYMENTS.PAYMENT_SRC.PAYMENT_CUSTOMER (
+INSERT INTO s2_payments.payment_customer (
     payment_customer_id,
     first_name,
     last_name,
@@ -265,7 +265,7 @@ VALUES
 -- EC-07. Two transaction keys, one business reference.
 -- T000100 keeps BREF-000100. T002001 is a second row with that same reference.
 -- -----------------------------------------------------------------------------
-INSERT INTO CBA_PAYMENTS.PAYMENT_SRC.TRANSACTION (
+INSERT INTO s2_payments.transaction (
     transaction_id,
     source_transaction_ref,
     payment_customer_id,
@@ -283,21 +283,21 @@ SELECT
     source_transaction_ref,
     payment_customer_id,
     account_id,
-    DATEADD(MINUTE, 5, transaction_ts) AS transaction_ts,
+    transaction_ts + INTERVAL '5 minutes' AS transaction_ts,
     transaction_type,
     amount,
     currency,
     channel,
     merchant_category,
     'ACCEPTED' AS status
-FROM CBA_PAYMENTS.PAYMENT_SRC.TRANSACTION
+FROM s2_payments.transaction
 WHERE transaction_id = 'T000100';
 
 -- -----------------------------------------------------------------------------
 -- EC-08. Account id that does not exist in CORE.ACCOUNT.
 -- The payment customer on this row is still a real payments customer.
 -- -----------------------------------------------------------------------------
-UPDATE CBA_PAYMENTS.PAYMENT_SRC.TRANSACTION
+UPDATE s2_payments.transaction
 SET account_id = 'A99999'
 WHERE transaction_id = 'T000250';
 
@@ -306,7 +306,7 @@ WHERE transaction_id = 'T000250';
 -- The account id is a real core account, so this row fails customer reference
 -- validation and passes account-existence validation.
 -- -----------------------------------------------------------------------------
-INSERT INTO CBA_PAYMENTS.PAYMENT_SRC.TRANSACTION (
+INSERT INTO s2_payments.transaction (
     transaction_id,
     source_transaction_ref,
     payment_customer_id,
@@ -324,7 +324,7 @@ VALUES (
     'BREF-ORPHAN-0001',
     'P0000',
     'A00001',
-    TO_TIMESTAMP_NTZ('2026-02-15 10:30:00'),
+    TIMESTAMP '2026-02-15 10:30:00',
     'PURCHASE',
     42.50,
     'AUD',
@@ -337,10 +337,10 @@ VALUES (
 -- EC-11 and EC-12. Child rows whose digital customer does not exist.
 -- Counts stay at 1,000 activities and 100 service cases.
 -- -----------------------------------------------------------------------------
-UPDATE CBA_DIGITAL_SERVICE.DIGITAL_SRC.ACTIVITY
+UPDATE s3_digital.activity
 SET digital_customer_id = 'D0000'
 WHERE activity_id = 'ACT000050';
 
-UPDATE CBA_DIGITAL_SERVICE.DIGITAL_SRC.SERVICE_CASE
+UPDATE s3_digital.service_case
 SET digital_customer_id = 'D0000'
 WHERE case_id = 'SC00020';

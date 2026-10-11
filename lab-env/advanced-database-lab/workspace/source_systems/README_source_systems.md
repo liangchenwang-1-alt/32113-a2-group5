@@ -1,6 +1,6 @@
 # Source systems package
 
-This package builds three fictional banking source systems for the CommBank Customer 360 prototype in 32113 Advanced Database, Assignment 2. It creates the databases, loads deterministic synthetic data, plants controlled data-quality problems, and validates the result.
+This package builds three fictional banking source systems for the CommBank Customer 360 prototype in 32113 Advanced Database, Assignment 2. It creates three schemas in the Lab Environment PostgreSQL database, loads deterministic synthetic data, plants controlled data-quality problems, and validates the result.
 
 It does not build the warehouse, `customer_xref`, or the reports. Those belong to the downstream team.
 
@@ -16,31 +16,43 @@ The wider prototype integrates customer records from three internal platforms in
 2. Transaction Analysis
 3. Channel and Service Engagement
 
-This package is only the source-system and synthetic-data component. The three databases stay independent. There are no foreign keys between them. The same person uses a different id in each system, for example `C0001`, `P1001`, and `D1001`.
+This package is only the source-system and synthetic-data component. The three schemas stay independent. There are no foreign keys between them. The same person uses a different id in each system, for example `C0001`, `P1001`, and `D1001`.
 
 ## Source systems
 
 | System | Database | Schema | Tables | Grain |
 |---|---|---|---|---|
-| Core Banking | `CBA_CORE_BANKING` | `CORE` | `CUSTOMER`, `ACCOUNT`, `CUSTOMER_ACCOUNT` | One customer, one account, or one ownership |
-| Payments | `CBA_PAYMENTS` | `PAYMENT_SRC` | `PAYMENT_CUSTOMER`, `TRANSACTION` | One payment profile, or one payment transaction |
-| Digital and Service | `CBA_DIGITAL_SERVICE` | `DIGITAL_SRC` | `DIGITAL_CUSTOMER`, `ACTIVITY`, `SERVICE_CASE` | One digital profile, one activity event, or one service case |
+| Core Banking | `lab` | `s1_core` | `customer`, `account`, `customer_account` | One customer, one account, or one ownership |
+| Payments | `lab` | `s2_payments` | `payment_customer`, `transaction` | One payment profile, or one payment transaction |
+| Digital and Service | `lab` | `s3_digital` | `digital_customer`, `activity`, `service_case` | One digital profile, one activity event, or one service case |
 
-`CUSTOMER_ACCOUNT` is a logical relationship inside Core Banking. Each account has one `PRIMARY` owner. Payments `account_id` uses the core id format so it can be integrated later. It is not a foreign key.
+`customer_account` is an enforced relationship inside Core Banking. Each account has one `PRIMARY` owner. Payments `account_id` uses the core id format so it can be integrated later. It is not a foreign key.
 
-Snowflake stores unquoted identifiers in uppercase. `customer_id` and `CUSTOMER_ID` are the same column. Primary keys are declared for the contract and are not enforced by Snowflake. `09_source_validation.sql` checks uniqueness.
+PostgreSQL folds unquoted identifiers to lower case. Primary keys are enforced. Foreign keys are enforced only inside `s1_core.customer_account`. Orphan references such as `A99999`, `P0000`, and `D0000` are intentionally not foreign keys, because a foreign key would reject those fixture rows. `09_source_validation.sql` checks the remaining rules.
 
 The logical model is in `source_er_diagram.md`. Column definitions are in `source_field_dictionary.csv`.
 
 ## File execution order
 
-Select a warehouse before running. These scripts do not create one.
+Run this from `lab-env/advanced-database-lab`, after `docker compose up -d`. These scripts use database `lab`. They do not create a database and they do not drop the warehouse prototype tables (`s1_core.customers`, `s2_payments.payers`, and the other tables already used by the 11-step run).
 
-```sql
-USE WAREHOUSE <your_warehouse>;
+```powershell
+$files = @(
+  'workspace/source_systems/01_create_source_databases.sql',
+  'workspace/source_systems/02_create_core_banking.sql',
+  'workspace/source_systems/03_create_payments.sql',
+  'workspace/source_systems/04_create_digital_service.sql',
+  'workspace/source_systems/05_generate_core_data.sql',
+  'workspace/source_systems/06_generate_payment_data.sql',
+  'workspace/source_systems/07_generate_digital_data.sql',
+  'workspace/source_systems/08_insert_edge_cases.sql',
+  'workspace/source_systems/09_source_validation.sql'
+)
+foreach ($f in $files) {
+  Get-Content $f -Raw | docker compose exec -T postgres psql -v ON_ERROR_STOP=1 -U student -d lab
+  Write-Host ("exit={0}  {1}" -f $LASTEXITCODE, $f)
+}
 ```
-
-Run the files in this order, in the same Snowflake account. Each file is fully qualified, so `USE DATABASE` is not required.
 
 ```text
 1. 01_create_source_databases.sql
@@ -58,7 +70,7 @@ A full rebuild is the same sequence. `02` to `04` replace the tables. `05` to `0
 
 Do not run `08` before `05` to `07`. The edge-case script updates rows that the generators create.
 
-The account needs permission to create databases, schemas, and tables, and to insert, update, delete, and select across the three databases.
+The database role needs permission to create schemas and tables, and to insert, update, delete, and select in those schemas. `student` in the lab image can do this.
 
 ## Data volumes
 
@@ -66,14 +78,14 @@ Counts below are the final counts after `08_insert_edge_cases.sql`. `09_source_v
 
 | Table | Rows | Notes |
 |---|---:|---|
-| `CORE.CUSTOMER` | 200 | `C0001` to `C0200` |
-| `CORE.ACCOUNT` | 300 | `A00001` to `A00300` |
-| `CORE.CUSTOMER_ACCOUNT` | 300 | One owner row per account |
-| `PAYMENT_SRC.PAYMENT_CUSTOMER` | 191 | 189 overlapping core customers, plus `P8888` and `P9999` |
-| `PAYMENT_SRC.TRANSACTION` | 2,002 | 2,000 clean rows, plus `T002001` and `T002002` |
-| `DIGITAL_SRC.DIGITAL_CUSTOMER` | 186 | Overlapping core customers only |
-| `DIGITAL_SRC.ACTIVITY` | 1,000 | `ACT000001` to `ACT001000` |
-| `DIGITAL_SRC.SERVICE_CASE` | 100 | `SC00001` to `SC00100` |
+| `s1_core.customer` | 200 | `C0001` to `C0200` |
+| `s1_core.account` | 300 | `A00001` to `A00300` |
+| `s1_core.customer_account` | 300 | One owner row per account |
+| `s2_payments.payment_customer` | 191 | 189 overlapping core customers, plus `P8888` and `P9999` |
+| `s2_payments.transaction` | 2,002 | 2,000 clean rows, plus `T002001` and `T002002` |
+| `s3_digital.digital_customer` | 186 | Overlapping core customers only |
+| `s3_digital.activity` | 1,000 | `ACT000001` to `ACT001000` |
+| `s3_digital.service_case` | 100 | `SC00001` to `SC00100` |
 
 Account numbering:
 
@@ -110,16 +122,16 @@ No digital profile is created for core numbers `3, 15, 30, 45, 60, 75, 90, 105, 
 | Activity | `ACT######` | `ACT000001` |
 | Service case | `SC#####` | `SC00001` |
 | Currency | `AUD` | `AUD` |
-| Money | `NUMBER(15,2)` | `25.01` |
+| Money | `NUMERIC(15,2)` | `25.01` |
 | Date of birth | `DATE` | `1991-04-12` |
-| Event timestamp | `TIMESTAMP_NTZ` | `2026-01-01 00:37:00` |
+| Event timestamp | `TIMESTAMP` | `2026-01-01 00:17:00` |
 
 `P0000` and `D0000` appear only as bad child references. They are not customer rows. `A99999` appears only as a bad account reference. It is not an account row.
 
 ## Synthetic-data assumptions
 
-- Sequences come from a digit cross join. Attributes are functions of that sequence. A full rebuild returns the same rows. The scripts do not use `RANDOM()`.
-- The event window is 90 days: `2026-01-01 00:00:00` through `2026-03-31 23:59:00`, stored as `TIMESTAMP_NTZ`. Session time zone does not shift these values.
+- `05` to `07` are literal `INSERT` statements. A full rebuild returns the same rows. The scripts do not use `RANDOM()`.
+- The event window is 90 days: `2026-01-01 00:00:00` through `2026-03-31 23:59:00`, stored as `TIMESTAMP` without a time zone. Session time zone does not shift these values.
 - A closed service case may end up to 96 hours after it was opened, so `closed_ts` can fall a few days after 31 March 2026.
 - Bulk emails use `@example.test` and include the core customer id, so they are unique before the fixture edits.
 - Bulk first-name and last-name pairs are unique across the 200 core customers. Fixture scripts then overwrite a few people.
@@ -129,7 +141,7 @@ No digital profile is created for core numbers `3, 15, 30, 45, 60, 75, 90, 105, 
 - Product names start with `Synthetic`. They are not real CBA products.
 - Customers `C0001` to `C0100` own two accounts. `C0101` to `C0200` own one.
 - Clean transactions use a payment customer from the overlapping set and an account that same core customer owns.
-- Activity channel is only `MOBILE` or `WEB`. Service-case channel may also be `CALL_CENTRE` or `BRANCH`.
+- Activity channel is only `MOBILE` or `WEB`. `service_case` has no channel column. Reporting a case by channel would invent an attribution.
 - `OPEN` and `IN_PROGRESS` cases have a null `closed_ts`. `CLOSED` cases have `closed_ts` after `opened_ts`.
 
 ## Deliberate data-quality problems
@@ -181,10 +193,27 @@ Filter the scorecard with `WHERE result = 'FAIL'` if any row fails. Do not treat
 
 The scorecard covers row counts, key uniqueness, id formats, ownership integrity, required nulls, the 90-day window, `opened_ts <= closed_ts`, currency, domains, and the separation between clean references and intentional bad references.
 
+## Alignment with the current warehouse contract
+
+Adopted from the 11 October alignment note:
+
+- The scripts run in the Lab Environment on PostgreSQL, database `lab`.
+- The three sources are schemas `s1_core`, `s2_payments`, and `s3_digital`, not three databases. A foreign-data wrapper can wait until after the demo.
+- `service_case` has no channel. R4 should keep reporting cases by status only.
+- `05` to `07` are literal inserts, so two runs load the same rows.
+
+Still open, because changing them would remove edge cases the handover asked to keep, or would replace the running warehouse tables:
+
+- Names stay `first_name` and `last_name`. `EC-03` and `EC-10` depend on one part of the name. `dim_customer.full_name` can be built downstream.
+- The payments profile stays `payment_customer`, not `payers`.
+- Ids stay `C0001` / `P1001` / `D1001`, not `C001` / `P001` / `U001`.
+- Volumes stay at the project-plan figures above. The current prototype's smaller fixture is a separate run.
+- These tables do not replace `s1_core.customers` or `s2_payments.payers`. Liangchen adds them to the 11-step run after the contract is frozen.
+
 ## Known limitations
 
-- Snowflake does not enforce the declared primary keys. Validation checks duplicates instead.
-- There are no foreign keys, inside a source or across sources.
+- PostgreSQL enforces primary keys, and it enforces the two foreign keys on `s1_core.customer_account`.
+- There are no foreign keys between the three schemas. Orphan fixture ids are not foreign keys either.
 - A small number of transactions can reference a `CLOSED` account. Closure is a status, not an event history.
 - Device type and activity channel are cycled independently.
 - Bulk customers are adults with fictional `@example.test` emails. Only the John Smith fixture uses a gmail address, and that address is synthetic.

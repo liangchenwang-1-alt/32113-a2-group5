@@ -15,7 +15,7 @@ erDiagram
     DIGITAL_CUSTOMER ||--o{ SERVICE_CASE : opens
 ```
 
-## Core Banking — `CBA_CORE_BANKING.CORE`
+## Core Banking — `s1_core`
 
 ```mermaid
 erDiagram
@@ -35,7 +35,7 @@ erDiagram
         VARCHAR account_type
         VARCHAR product_name
         DATE open_date
-        NUMBER balance
+        NUMERIC balance
         VARCHAR currency
         VARCHAR status
     }
@@ -51,7 +51,7 @@ erDiagram
 
 One account has one `PRIMARY` owner in this prototype. A customer may own more than one account.
 
-## Payments — `CBA_PAYMENTS.PAYMENT_SRC`
+## Payments — `s2_payments`
 
 ```mermaid
 erDiagram
@@ -69,9 +69,9 @@ erDiagram
         VARCHAR source_transaction_ref
         VARCHAR payment_customer_id
         VARCHAR account_id
-        TIMESTAMP_NTZ transaction_ts
+        TIMESTAMP transaction_ts
         VARCHAR transaction_type
-        NUMBER amount
+        NUMERIC amount
         VARCHAR currency
         VARCHAR channel
         VARCHAR merchant_category
@@ -82,7 +82,7 @@ erDiagram
 
 `source_transaction_ref` is not unique. `T000100` and `T002001` share `BREF-000100`.
 
-## Digital and Service — `CBA_DIGITAL_SERVICE.DIGITAL_SRC`
+## Digital and Service — `s3_digital`
 
 ```mermaid
 erDiagram
@@ -99,18 +99,17 @@ erDiagram
     ACTIVITY {
         VARCHAR activity_id PK
         VARCHAR digital_customer_id
-        TIMESTAMP_NTZ activity_ts
+        TIMESTAMP activity_ts
         VARCHAR channel
         VARCHAR activity_type
         VARCHAR device_type
-        NUMBER session_minutes
+        NUMERIC session_minutes
     }
     SERVICE_CASE {
         VARCHAR case_id PK
         VARCHAR digital_customer_id
-        TIMESTAMP_NTZ opened_ts
-        TIMESTAMP_NTZ closed_ts
-        VARCHAR channel
+        TIMESTAMP opened_ts
+        TIMESTAMP closed_ts
         VARCHAR case_type
         VARCHAR priority
         VARCHAR status
