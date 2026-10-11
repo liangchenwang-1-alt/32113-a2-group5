@@ -1,0 +1,15 @@
+COMMAND: docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 -P pager=off -U student -d lab
+EXIT: 0
+STDOUT:
+ source_system | match_rule  | match_status | rows 
+---------------+-------------+--------------+------
+ S1            | R1_EXACT_ID | matched      |    5
+ S2            | NONE        | unmatched    |    2
+ S2            | R2_EMAIL    | ambiguous    |    2
+ S2            | R2_EMAIL    | matched      |    1
+ S3            | NONE        | unmatched    |    2
+ S3            | R2_EMAIL    | matched      |    2
+(6 rows)
+
+
+STDERR:
