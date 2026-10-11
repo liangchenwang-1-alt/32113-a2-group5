@@ -1,0 +1,18 @@
+COMMAND: docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 -P pager=off -U student -d lab
+EXIT: 0
+STDOUT:
+BEGIN
+TRUNCATE TABLE
+INSERT 0 5
+INSERT 0 5
+INSERT 0 5
+INSERT 0 8
+INSERT 0 6
+CREATE TABLE
+TRUNCATE TABLE
+INSERT 0 4
+INSERT 0 4
+COMMIT
+
+STDERR:
+NOTICE:  relation "digital_users" already exists, skipping

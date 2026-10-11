@@ -9,11 +9,11 @@ otherwise stated. Presence of a file is not proof of acceptance.
 | Planned requirement | Artifact | Current evidence and remaining action |
 |---|---|---|
 | At least three sources | `part3_warehouse_etl/01_source_ddl.sql`; `source_systems/` | Three source schemas exist in code. Confirm schema interpretation; larger source package is not yet in the main flow. |
-| Integrated warehouse | `part3_warehouse_etl/02_warehouse_ddl.sql` | Four dimensions, three facts, xref and audit tables defined. Correct account linkage and verify final data. |
-| Commented creation, population and ETL SQL | `part3_warehouse_etl/`; `integration/run_all.py` | Main sequence documented. Member 1 runner supplied; database execution pending. |
+| Integrated warehouse | `part3_warehouse_etl/02_warehouse_ddl.sql` | Four dimensions, three facts, xref and audit tables defined. Account linkage corrected on 12 October and verified: 4 of 6 transaction rows carry an `account_key`, two builds give identical fingerprints. |
+| Commented creation, population and ETL SQL | `part3_warehouse_etl/`; `integration/run_all.py` | Main sequence documented. Member 1 runner executed on 12 October with the current small fixture: PASS, 29 steps, no failure. |
 | Architecture and design mapping | `figures/architecture.svg`; architecture notes; Member 3 model | Diagram labels pending integration. Reconcile with the merged model before final report. |
 | At least three reports | `part5_reports_testing/10_report_views.sql`; `r1_r2_r3_reports.sql`; `dashboard.html` | Existing outputs and historical evidence available. Revalidate on final integrated dataset. |
-| End-to-end checks and repeatability | `integration/acceptance_checks.sql`; T5 and T9-T13 scripts | Revised runner saves both runs and compares fingerprints. No new database PASS claimed. |
+| End-to-end checks and repeatability | `integration/acceptance_checks.sql`; T5 and T9-T13 scripts | Runner saves both builds and compares fingerprints; 12 October run PASS with identical fingerprints. Re-run after any ETL or identity change. |
 | Recorded demo link | Final report and evidence index | Final link and independent viewer-access check still required. |
 | Contributions and meeting records | Official forms, personal logbooks, signed minutes | Liangchen coordinates collection. Do not infer completion from code commits. |
 

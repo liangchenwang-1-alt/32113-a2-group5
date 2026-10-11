@@ -1,0 +1,7 @@
+COMMAND: docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 -P pager=off -U student -d lab
+EXIT: 0
+STDOUT:
+DO
+
+STDERR:
+NOTICE:  Member 1 automated assertions passed

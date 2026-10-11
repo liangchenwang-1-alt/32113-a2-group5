@@ -30,7 +30,7 @@ A machine with the Windows Python launcher may use `py -3` instead of `python`.
 | 3 | `part3_warehouse_etl/90_fixtures_sources.sql` | Deterministic small fixture |
 | 4 | `part3_warehouse_etl/02b_dimensions.sql` | Customer, date and channel dimensions |
 | 5 | `part3_warehouse_etl/03_identity_xref.sql` | Identity mapping |
-| 6 | `part3_warehouse_etl/04_etl_load_facts.sql` | Account/fact loads; internal account order needs correction |
+| 6 | `part3_warehouse_etl/04_etl_load_facts.sql` | Account dimension and fact loads; dim_account now loads before the facts |
 | 7 | `part5_reports_testing/10_report_views.sql` | Warehouse report views |
 | 8 | `part3_warehouse_etl/05_reconciliation.sql` | Printed reconciliation diagnostics |
 | 9 | `part5_reports_testing/r1_r2_r3_reports.sql` | Report outputs |
@@ -52,10 +52,26 @@ hashes and step status; `SUMMARY.md` states the result and scope. Exit code 0 me
 the supplied assertions and fingerprint comparison passed; 1 means execution or
 validation failed; 2 means setup or argument validation failed.
 
-The current main baseline is expected to fail the valid-account linkage assertion.
-Coordinate that fix with Yutong and Sejin, then rerun. Do not remove the assertion
-merely to obtain PASS. Review all report values and T9-T13 diagnostics manually too:
-not every semantic property has an automated assertion in this package.
+First live run, 12 October 2026. Eleven SQL files finished with exit code 0, but the
+valid-account linkage assertion failed: `dw.fact_transaction` had six rows and every
+`account_key` was NULL. Cause: `part3_warehouse_etl/04_etl_load_facts.sql` loaded
+`dim_account` **after** the facts, and `02_warehouse_ddl.sql` recreates the warehouse on
+every build, so `dim_account` was always empty at fact-load time. The T5 fingerprint did not
+catch it because every build produced the same NULL keys.
+
+The load order was corrected on 12 October (dim_account first, duplicate trailing block
+removed). The assertion was not weakened. The wrapper now reports:
+
+- result: PASS, 29 steps, no failure
+- two builds with identical T5 fingerprints
+- `fact_transaction`: 6 rows, 4 with an `account_key` (the other two have no `account_id`
+  in S2 by design)
+- reconciliation unchanged: 7 settled inputs, 1 orphan rejected, 6 loaded, AUD 1,835.50
+- evidence: `workspace/evidence/member1_20261011T180422_197168Z/`
+
+Do not remove the assertion merely to obtain PASS. Review all report values and the
+T9-T13 diagnostics manually as well: not every semantic property has an automated
+assertion in this package.
 
 Historical figures of seven settled inputs, one orphan rejection, six loaded
 transactions and AUD 1,835.50 apply only to the old fixture. Do not apply them to
