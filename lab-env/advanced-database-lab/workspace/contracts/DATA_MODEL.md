@@ -32,7 +32,7 @@
 
 ```mermaid
 erDiagram
-    CUSTOMER o|--o{ CUSTOMER_XREF : "has source IDs"
+    CUSTOMER o|--o{ CUSTOMER_XREF : "has source IDs"CUSTOMER o|--o{ CUSTOMER_XREF : "has source IDs"
     CUSTOMER ||--o{ ACCOUNT : "owns"
     CUSTOMER o|--o{ TRANSACTION : "makes"
     CUSTOMER o|--o{ DIGITAL_ACTIVITY : "performs"
@@ -173,7 +173,7 @@ erDiagram
 | account_key | integer | YES |
 | date_key | integer | NO |
 | channel_key | integer | NO |
-| amount_aud | numeric | NO |
+| amount_aud | numeric(12,2) | NO |
 | transaction_count | integer | NO |
 | status | varchar(10) | NO |
 
