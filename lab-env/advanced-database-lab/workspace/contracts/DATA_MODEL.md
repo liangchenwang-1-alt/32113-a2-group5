@@ -32,7 +32,7 @@
 
 ```mermaid
 erDiagram
-    CUSTOMER ||--o{ CUSTOMER_XREF : "has source IDs"
+    CUSTOMER o|--o{ CUSTOMER_XREF : "has source IDs"
     CUSTOMER ||--o{ ACCOUNT : "owns"
     CUSTOMER o|--o{ TRANSACTION : "makes"
     CUSTOMER o|--o{ DIGITAL_ACTIVITY : "performs"
