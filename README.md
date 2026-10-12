@@ -73,6 +73,7 @@ macOS / Linux: same order, using
 | `lab-env/advanced-database-lab/python/` | Python container (Dockerfile, requirements) |
 | `workspace/part3_warehouse_etl/01_source_ddl.sql` | three source schemas and their tables |
 | `workspace/part3_warehouse_etl/90_fixtures_sources.sql` | deterministic synthetic data (literal INSERTs only) |
+| `workspace/source_systems/` | Qiushi Huang's Snowflake source-system package: DDL, synthetic data, field dictionary, expected results, and ER diagram. It is not part of the Docker run above. |
 | `workspace/part3_warehouse_etl/02_warehouse_ddl.sql` | warehouse: 4 dimensions, 3 facts, identity xref, audit tables |
 | `workspace/part3_warehouse_etl/02b_dimensions.sql` | loads the dimensions |
 | `workspace/part3_warehouse_etl/03_identity_xref.sql` | deterministic customer identity resolution (no name-only merging) |

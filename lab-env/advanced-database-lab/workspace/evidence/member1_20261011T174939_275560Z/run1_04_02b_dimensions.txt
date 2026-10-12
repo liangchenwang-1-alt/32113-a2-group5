@@ -1,0 +1,10 @@
+COMMAND: docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 -P pager=off -U student -d lab
+EXIT: 0
+STDOUT:
+BEGIN
+INSERT 0 4
+INSERT 0 5
+INSERT 0 31
+COMMIT
+
+STDERR:

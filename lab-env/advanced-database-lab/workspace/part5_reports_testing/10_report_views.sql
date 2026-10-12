@@ -14,7 +14,7 @@
 --   3. No view attributes an event to a dimension the event does not carry. In particular
 --      dw.fact_service_case has NO channel_key, so service-case figures are NEVER
 --      reported per channel (see v_r4). Reporting them per channel would be a
---      fabricated attribution - caught by test T10 in `测试矩阵.md`.
+--      fabricated attribution - caught by the guard check T10 in t9_t13_guard_checks.sql.
 --
 -- Idempotent: drop + create. Must run AFTER 02_warehouse_ddl.sql (which CASCADE-drops
 -- dependent views) and AFTER the ETL load.

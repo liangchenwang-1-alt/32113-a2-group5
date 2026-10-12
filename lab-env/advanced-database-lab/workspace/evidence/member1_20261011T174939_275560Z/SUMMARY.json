@@ -1,0 +1,77 @@
+{
+  "owner": "Liangchen Wang",
+  "student_id": "25142542",
+  "status": "FAIL",
+  "reason": "run1_acceptance: failed; see saved output",
+  "timestamp_utc": "20261011T174939_275560Z",
+  "scope": "Current small-fixture contract; not new source package acceptance",
+  "input_sha256": {
+    "docker-compose.yml": "627d0cbf9ed070bd0b4e1aa75d663ad7734c945ffe2330d8851738920ed692c1",
+    "workspace\\integration\\acceptance_checks.sql": "71de3466964427469d5191755c8095d189332967ba0ee235db1d14402b46fec0",
+    "workspace\\part3_warehouse_etl\\01_source_ddl.sql": "dd725266cbd324bb418f48e914b71a464d649079d4be8717ef9ebb5dc36664cb",
+    "workspace\\part3_warehouse_etl\\02_warehouse_ddl.sql": "40bade84e533f3dcd7b5f99e7d0f56d90f4f07adca959836a882dfa73a48dc4d",
+    "workspace\\part3_warehouse_etl\\90_fixtures_sources.sql": "7b7dbbc75879c8ff3f84aedfe7265899a454915e547bb1125dab825b9cb70b52",
+    "workspace\\part3_warehouse_etl\\02b_dimensions.sql": "0da78c25da9d0d3e2eb0481ecb48b2b1f4a1389a56dbaddd55797d3878291a12",
+    "workspace\\part3_warehouse_etl\\03_identity_xref.sql": "7d6fb87d15d0068210082e5dc165ad74b1c29ee5684e41113c7ac194558936b9",
+    "workspace\\part3_warehouse_etl\\04_etl_load_facts.sql": "644d0b6b1aebf3ff860e953bb974d6d99ce07be5e6d06ac8401bba43318fc6c3",
+    "workspace\\part5_reports_testing\\10_report_views.sql": "82e80e33e55a1da47a1f1f83b3913b17b459485d619349c443b8e9f66afaf774",
+    "workspace\\part3_warehouse_etl\\05_reconciliation.sql": "46aa2f39460ec38adb117b98a1cc788c7bfaff1254217817281c61a7f4ea1466",
+    "workspace\\part5_reports_testing\\r1_r2_r3_reports.sql": "99fc2c83bbaa3cb2105d944cdb2573982f8907ef98a679fa69b2f3a9724f9bff",
+    "workspace\\part5_reports_testing\\t5_idempotency_fingerprint.sql": "f8d58e27deb8abf3c30430ca9ebe596ebb13728446a686bd9cd2493fe93dbdf7",
+    "workspace\\part5_reports_testing\\t9_t13_guard_checks.sql": "0ba6e330f1456f1d43beb4addc4c4641c7adccbc896e5da8dcd12e2651ffb223"
+  },
+  "steps": [
+    {
+      "step": "00_readiness",
+      "exit": 0
+    },
+    {
+      "step": "run1_01_01_source_ddl",
+      "exit": 0
+    },
+    {
+      "step": "run1_02_02_warehouse_ddl",
+      "exit": 0
+    },
+    {
+      "step": "run1_03_90_fixtures_sources",
+      "exit": 0
+    },
+    {
+      "step": "run1_04_02b_dimensions",
+      "exit": 0
+    },
+    {
+      "step": "run1_05_03_identity_xref",
+      "exit": 0
+    },
+    {
+      "step": "run1_06_04_etl_load_facts",
+      "exit": 0
+    },
+    {
+      "step": "run1_07_10_report_views",
+      "exit": 0
+    },
+    {
+      "step": "run1_08_05_reconciliation",
+      "exit": 0
+    },
+    {
+      "step": "run1_09_r1_r2_r3_reports",
+      "exit": 0
+    },
+    {
+      "step": "run1_10_t5_idempotency_fingerprint",
+      "exit": 0
+    },
+    {
+      "step": "run1_11_t9_t13_guard_checks",
+      "exit": 0
+    },
+    {
+      "step": "run1_acceptance",
+      "exit": 3
+    }
+  ]
+}

@@ -6,11 +6,32 @@
 --   * an account_id that does not exist in S1 is REJECTED (orphan), not silently dropped
 --   * a transaction with an unknown/NULL payer or unknown account still loads, but with
 --     customer_key = NULL so the report layer can see the gap instead of losing the row
+--   * dim_account is loaded BEFORE the facts, because the fact rows join to it and
+--     02_warehouse_ddl.sql recreates the warehouse on every build
 --   * re-running the whole ETL is safe: facts are truncated and rebuilt
 -- ============================================================================
 BEGIN;
 
 TRUNCATE dw.fact_transaction, dw.fact_activity, dw.fact_service_case, dw.rejected_record RESTART IDENTITY;
+
+-- ------------------------------------------------------------------ dim_account first
+-- Loaded before the facts: the fact rows join to dim_account, and 02_warehouse_ddl.sql
+-- recreates the warehouse on every build. Loaded after the facts, dim_account is still
+-- empty at fact-load time, so every fact row gets account_key = NULL.
+DELETE FROM dw.dim_account;
+
+INSERT INTO dw.rejected_record (source_system, source_table, source_key, reason)
+SELECT 'S1', 'accounts', a.account_id, 'customer_id not present in s1_core.customers'
+FROM   s1_core.accounts a
+WHERE  NOT EXISTS (SELECT 1 FROM s1_core.customers c WHERE c.customer_id = a.customer_id);
+
+INSERT INTO dw.dim_account (account_id, customer_key, account_type, opened_date, status, source_system)
+SELECT a.account_id, dc.customer_key, a.account_type, a.opened_date, a.status, 'S1'
+FROM   s1_core.accounts a
+JOIN   s1_core.customers c ON c.customer_id = a.customer_id
+JOIN   dw.dim_customer  dc ON dc.full_name = c.full_name
+                          AND dc.date_of_birth IS NOT DISTINCT FROM c.date_of_birth
+                          AND dc.email IS NOT DISTINCT FROM c.email;
 
 -- ------------------------------------------------------------- fact_transaction
 INSERT INTO dw.rejected_record (source_system, source_table, source_key, reason)
@@ -81,20 +102,3 @@ SELECT 'fact_service_case',
 
 COMMIT;
 
--- ------------------------------------------------------------------ dim_account last
--- Loaded after facts because it references dim_customer; invalid refs are rejected.
-BEGIN;
-DELETE FROM dw.dim_account;
-INSERT INTO dw.rejected_record (source_system, source_table, source_key, reason)
-SELECT 'S1', 'accounts', a.account_id, 'customer_id not present in s1_core.customers'
-FROM   s1_core.accounts a
-WHERE  NOT EXISTS (SELECT 1 FROM s1_core.customers c WHERE c.customer_id = a.customer_id);
-
-INSERT INTO dw.dim_account (account_id, customer_key, account_type, opened_date, status, source_system)
-SELECT a.account_id, dc.customer_key, a.account_type, a.opened_date, a.status, 'S1'
-FROM   s1_core.accounts a
-JOIN   s1_core.customers c ON c.customer_id = a.customer_id
-JOIN   dw.dim_customer  dc ON dc.full_name = c.full_name
-                          AND dc.date_of_birth IS NOT DISTINCT FROM c.date_of_birth
-                          AND dc.email IS NOT DISTINCT FROM c.email;
-COMMIT;
