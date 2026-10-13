@@ -1,0 +1,14 @@
+EXIT: 0
+EXPECTED_FAILURE: False
+STDOUT:
+DROP TABLE
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+COMMENT
+COMMENT
+COMMENT
+
+STDERR:
+NOTICE:  table "transaction" does not exist, skipping
+NOTICE:  table "payment_customer" does not exist, skipping

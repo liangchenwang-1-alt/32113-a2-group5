@@ -1,0 +1,56 @@
+[
+  {
+    "block": 1,
+    "exit_code": 0,
+    "sql": "SELECT 'S1 customers' AS source,count(*) AS rows FROM s1_core.customer\nUNION ALL SELECT 'S2 payment customers',count(*) FROM s2_payments.payment_customer\nUNION ALL SELECT 'S2 transactions',count(*) FROM s2_payments.transaction\nUNION ALL SELECT 'S3 digital customers',count(*) FROM s3_digital.digital_customer\nUNION ALL SELECT 'S3 activities',count(*) FROM s3_digital.activity\nUNION ALL SELECT 'S3 service cases',count(*) FROM s3_digital.service_case;",
+    "output": "BEGIN\n        source        | rows \n----------------------+------\n S1 customers         |  200\n S2 payment customers |  191\n S2 transactions      | 2002\n S3 digital customers |  186\n S3 activities        | 1000\n S3 service cases     |  100\n(6 rows)\n\nROLLBACK\n"
+  },
+  {
+    "block": 2,
+    "exit_code": 0,
+    "sql": "SELECT x.source_system,x.source_customer_id,x.customer_key,c.core_customer_id,\n       x.match_rule,x.match_status\nFROM dw.customer_xref x LEFT JOIN dw.dim_customer c USING(customer_key)\nWHERE x.source_customer_id IN ('C0001','P1001','D1001','P8888','P9999')\nORDER BY x.source_system,x.source_customer_id;",
+    "output": "BEGIN\n source_system | source_customer_id | customer_key | core_customer_id |   match_rule   | match_status \n---------------+--------------------+--------------+------------------+----------------+--------------\n S1            | C0001              |            1 | C0001            | R1_CORE_ID     | matched\n S2            | P1001              |            1 | C0001            | R2_DOB_CONTACT | matched\n S2            | P8888              |              |                  | NONE           | ambiguous\n S2            | P9999              |              |                  | NONE           | unmatched\n S3            | D1001              |            1 | C0001            | R2_DOB_CONTACT | matched\n(5 rows)\n\nROLLBACK\n"
+  },
+  {
+    "block": 3,
+    "exit_code": 0,
+    "sql": "SELECT match_rule,match_status,count(*) AS rows FROM dw.customer_xref\nGROUP BY match_rule,match_status ORDER BY match_rule,match_status;",
+    "output": "BEGIN\n   match_rule   | match_status | rows \n----------------+--------------+------\n NONE           | ambiguous    |    1\n NONE           | unmatched    |    1\n R1_CORE_ID     | matched      |  200\n R2_DOB_CONTACT | matched      |  375\n(4 rows)\n\nROLLBACK\n"
+  },
+  {
+    "block": 4,
+    "exit_code": 0,
+    "sql": "SELECT disposition,count(*) AS rows,sum(amount) AS amount_aud\nFROM stg.tx_decision GROUP BY disposition ORDER BY disposition;",
+    "output": "BEGIN\n        disposition        | rows | amount_aud \n---------------------------+------+------------\n EXCLUDE_STATUS            |  192 |  275498.51\n LOAD                      | 1807 | 1987975.99\n REJECT_ACCOUNT            |    1 |    3265.50\n REJECT_CUSTOMER_REFERENCE |    1 |      42.50\n REJECT_DUPLICATE          |    1 |    1315.00\n(5 rows)\n\nROLLBACK\n"
+  },
+  {
+    "block": 5,
+    "exit_code": 0,
+    "sql": "SELECT source_table,source_key,reason,amount_aud FROM dw.rejected_record\nORDER BY source_table,source_key;",
+    "output": "BEGIN\n source_table | source_key |          reason           | amount_aud \n--------------+------------+---------------------------+------------\n activity     | ACT000050  | REJECT_CUSTOMER_REFERENCE |           \n service_case | SC00020    | REJECT_CUSTOMER_REFERENCE |           \n transaction  | T000250    | REJECT_ACCOUNT            |    3265.50\n transaction  | T002001    | REJECT_DUPLICATE          |    1315.00\n transaction  | T002002    | REJECT_CUSTOMER_REFERENCE |      42.50\n(5 rows)\n\nROLLBACK\n"
+  },
+  {
+    "block": 6,
+    "exit_code": 0,
+    "sql": "SELECT * FROM dw.v_r1_customer_360 WHERE core_customer_id='C0001';",
+    "output": "BEGIN\n customer_key |   full_name   | core_customer_id |    last_activity    | match_quality | accounts | transactions | amount_aud | digital_activities | service_cases | open_cases \n--------------+---------------+------------------+---------------------+---------------+----------+--------------+------------+--------------------+---------------+------------\n            1 | Olivia Nguyen | C0001            | 2026-01-31 12:11:00 | CORE_ANCHOR   |        2 |           10 |   11191.93 |                  6 |             1 |          0\n(1 row)\n\nROLLBACK\n"
+  },
+  {
+    "block": 7,
+    "exit_code": 0,
+    "sql": "SELECT * FROM dw.v_r2b_transaction_by_channel ORDER BY channel_code;",
+    "output": "BEGIN\n channel_code | channel_name | txn_count | amount_aud \n--------------+--------------+-----------+------------\n ATM          | ATM          |       258 |  282743.81\n BRANCH       | BRANCH       |       259 |  287963.45\n CARD         | CARD         |       774 |  851013.55\n MOBILE       | MOBILE       |       258 |  280505.51\n WEB          | WEB          |       258 |  285749.67\n(5 rows)\n\nROLLBACK\n"
+  },
+  {
+    "block": 8,
+    "exit_code": 0,
+    "sql": "SELECT * FROM dw.v_r3_channel_engagement ORDER BY channel_code;",
+    "output": "BEGIN\n channel_code | channel_name | active_customers | activity_count \n--------------+--------------+------------------+----------------\n ATM          | ATM          |                0 |              0\n BRANCH       | BRANCH       |                0 |              0\n CARD         | CARD         |                0 |              0\n MOBILE       | MOBILE       |               93 |            500\n WEB          | WEB          |               93 |            499\n(5 rows)\n\nROLLBACK\n"
+  },
+  {
+    "block": 9,
+    "exit_code": 0,
+    "sql": "SELECT batch_id,status,started_at,finished_at FROM audit.batch\nORDER BY started_at DESC LIMIT 2;",
+    "output": "BEGIN\n         batch_id          | status |          started_at           |          finished_at          \n---------------------------+--------+-------------------------------+-------------------------------\n 20261012T122007_672614Z_2 | PASS   | 2026-10-12 12:20:09.496932+00 | 2026-10-12 12:20:11.171493+00\n 20261012T122007_672614Z_1 | PASS   | 2026-10-12 12:20:07.804194+00 | 2026-10-12 12:20:09.460274+00\n(2 rows)\n\nROLLBACK\n"
+  }
+]

@@ -1,0 +1,9 @@
+EXIT: 0
+EXPECTED_FAILURE: False
+STDOUT:
+status,case_count,customers,high_severity
+CLOSED,60,60,20
+IN_PROGRESS,20,20,6
+OPEN,19,19,6
+
+STDERR:

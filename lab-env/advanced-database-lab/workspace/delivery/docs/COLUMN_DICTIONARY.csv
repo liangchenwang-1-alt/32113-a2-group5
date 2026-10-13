@@ -1,0 +1,244 @@
+table_schema,table_name,column_name,data_type,is_nullable
+audit,batch,batch_id,text,NO
+audit,batch,started_at,timestamp with time zone,YES
+audit,batch,finished_at,timestamp with time zone,YES
+audit,batch,status,text,YES
+audit,batch,error,text,YES
+audit,step_counts,batch_id,text,YES
+audit,step_counts,step,text,YES
+audit,step_counts,source_count,bigint,YES
+audit,step_counts,loaded_count,bigint,YES
+audit,step_counts,rejected_count,bigint,YES
+audit,step_counts,excluded_count,bigint,YES
+dw,customer_xref,xref_key,integer,NO
+dw,customer_xref,source_system,character,NO
+dw,customer_xref,source_customer_id,character varying,NO
+dw,customer_xref,customer_key,integer,YES
+dw,customer_xref,match_rule,character varying,NO
+dw,customer_xref,match_status,character varying,NO
+dw,dim_account,account_key,integer,NO
+dw,dim_account,account_id,character varying,NO
+dw,dim_account,customer_key,integer,NO
+dw,dim_account,account_type,character varying,NO
+dw,dim_account,opened_date,date,NO
+dw,dim_account,status,character varying,NO
+dw,dim_account,source_system,character,NO
+dw,dim_channel,channel_key,integer,NO
+dw,dim_channel,channel_code,character varying,NO
+dw,dim_channel,channel_name,character varying,NO
+dw,dim_customer,customer_key,integer,NO
+dw,dim_customer,full_name,character varying,NO
+dw,dim_customer,date_of_birth,date,YES
+dw,dim_customer,email,character varying,YES
+dw,dim_customer,state,character,YES
+dw,dim_customer,first_seen_at,timestamp without time zone,NO
+dw,dim_customer,match_quality,character varying,NO
+dw,dim_customer,core_customer_id,text,YES
+dw,dim_customer,phone,text,YES
+dw,dim_date,date_key,integer,NO
+dw,dim_date,full_date,date,NO
+dw,dim_date,day_of_week,character varying,NO
+dw,dim_date,month_no,integer,NO
+dw,dim_date,quarter_no,integer,NO
+dw,dim_date,year_no,integer,NO
+dw,etl_run_log,run_id,integer,NO
+dw,etl_run_log,run_at,timestamp without time zone,NO
+dw,etl_run_log,step,character varying,NO
+dw,etl_run_log,source_count,integer,YES
+dw,etl_run_log,loaded_count,integer,YES
+dw,etl_run_log,rejected_count,integer,YES
+dw,etl_run_log,batch_id,text,YES
+dw,etl_run_log,excluded_count,bigint,YES
+dw,fact_activity,activity_key,integer,NO
+dw,fact_activity,activity_id,character varying,NO
+dw,fact_activity,customer_key,integer,YES
+dw,fact_activity,date_key,integer,NO
+dw,fact_activity,channel_key,integer,NO
+dw,fact_activity,activity_type,character varying,NO
+dw,fact_activity,activity_count,integer,NO
+dw,fact_activity,batch_id,text,YES
+dw,fact_activity,event_ts,timestamp without time zone,YES
+dw,fact_service_case,case_key,integer,NO
+dw,fact_service_case,case_id,character varying,NO
+dw,fact_service_case,customer_key,integer,YES
+dw,fact_service_case,date_key,integer,NO
+dw,fact_service_case,case_type,character varying,NO
+dw,fact_service_case,status,character varying,NO
+dw,fact_service_case,severity,character varying,NO
+dw,fact_service_case,case_count,integer,NO
+dw,fact_service_case,batch_id,text,YES
+dw,fact_transaction,transaction_key,integer,NO
+dw,fact_transaction,transaction_id,character varying,NO
+dw,fact_transaction,customer_key,integer,YES
+dw,fact_transaction,account_key,integer,YES
+dw,fact_transaction,date_key,integer,NO
+dw,fact_transaction,channel_key,integer,NO
+dw,fact_transaction,amount_aud,numeric,NO
+dw,fact_transaction,transaction_count,integer,NO
+dw,fact_transaction,status,character varying,NO
+dw,fact_transaction,source_transaction_ref,text,YES
+dw,fact_transaction,batch_id,text,YES
+dw,rejected_record,reject_key,integer,NO
+dw,rejected_record,source_system,character,NO
+dw,rejected_record,source_table,character varying,NO
+dw,rejected_record,source_key,character varying,NO
+dw,rejected_record,reason,character varying,NO
+dw,rejected_record,rejected_at,timestamp without time zone,NO
+dw,rejected_record,batch_id,text,YES
+dw,rejected_record,amount_aud,numeric,YES
+dw,v_r1_customer_360,customer_key,integer,YES
+dw,v_r1_customer_360,full_name,character varying,YES
+dw,v_r1_customer_360,core_customer_id,text,YES
+dw,v_r1_customer_360,last_activity,timestamp without time zone,YES
+dw,v_r1_customer_360,match_quality,character varying,YES
+dw,v_r1_customer_360,accounts,bigint,YES
+dw,v_r1_customer_360,transactions,bigint,YES
+dw,v_r1_customer_360,amount_aud,numeric,YES
+dw,v_r1_customer_360,digital_activities,bigint,YES
+dw,v_r1_customer_360,service_cases,bigint,YES
+dw,v_r1_customer_360,open_cases,bigint,YES
+dw,v_r2_transaction_by_date_channel,full_date,date,YES
+dw,v_r2_transaction_by_date_channel,day_of_week,character varying,YES
+dw,v_r2_transaction_by_date_channel,channel_code,character varying,YES
+dw,v_r2_transaction_by_date_channel,channel_name,character varying,YES
+dw,v_r2_transaction_by_date_channel,txn_count,bigint,YES
+dw,v_r2_transaction_by_date_channel,amount_aud,numeric,YES
+dw,v_r2b_transaction_by_channel,channel_code,character varying,YES
+dw,v_r2b_transaction_by_channel,channel_name,character varying,YES
+dw,v_r2b_transaction_by_channel,txn_count,bigint,YES
+dw,v_r2b_transaction_by_channel,amount_aud,numeric,YES
+dw,v_r3_channel_engagement,channel_code,character varying,YES
+dw,v_r3_channel_engagement,channel_name,character varying,YES
+dw,v_r3_channel_engagement,active_customers,bigint,YES
+dw,v_r3_channel_engagement,activity_count,numeric,YES
+dw,v_r4_service_case_summary,status,character varying,YES
+dw,v_r4_service_case_summary,case_count,bigint,YES
+dw,v_r4_service_case_summary,customers,bigint,YES
+dw,v_r4_service_case_summary,high_severity,bigint,YES
+dw,v_r5_data_quality_kpi,dim_customer_rows,bigint,YES
+dw,v_r5_data_quality_kpi,dim_account_rows,bigint,YES
+dw,v_r5_data_quality_kpi,xref_rows,bigint,YES
+dw,v_r5_data_quality_kpi,xref_matched,bigint,YES
+dw,v_r5_data_quality_kpi,xref_ambiguous,bigint,YES
+dw,v_r5_data_quality_kpi,xref_unmatched,bigint,YES
+dw,v_r5_data_quality_kpi,transaction_rows,bigint,YES
+dw,v_r5_data_quality_kpi,transactions_unresolved,bigint,YES
+dw,v_r5_data_quality_kpi,transaction_amount_aud,numeric,YES
+dw,v_r5_data_quality_kpi,activity_rows,bigint,YES
+dw,v_r5_data_quality_kpi,service_case_rows,bigint,YES
+dw,v_r5_data_quality_kpi,rejected_rows,bigint,YES
+dw,v_r6_attribution_reconciliation,fact,text,YES
+dw,v_r6_attribution_reconciliation,total_rows,bigint,YES
+dw,v_r6_attribution_reconciliation,attributed_rows,bigint,YES
+dw,v_r6_attribution_reconciliation,unattributed_rows,bigint,YES
+dw,v_r6_attribution_reconciliation,total_amount_aud,numeric,YES
+dw,v_r6_attribution_reconciliation,attributed_amount_aud,numeric,YES
+dw,v_r6_attribution_reconciliation,unattributed_amount_aud,numeric,YES
+stg,account,account_id,character varying,YES
+stg,account,account_type,character varying,YES
+stg,account,product_name,character varying,YES
+stg,account,open_date,date,YES
+stg,account,balance,numeric,YES
+stg,account,currency,character varying,YES
+stg,account,status,character varying,YES
+stg,account,batch_id,text,YES
+stg,activity,activity_id,character varying,YES
+stg,activity,digital_customer_id,character varying,YES
+stg,activity,activity_ts,timestamp without time zone,YES
+stg,activity,channel,character varying,YES
+stg,activity,activity_type,character varying,YES
+stg,activity,device_type,character varying,YES
+stg,activity,session_minutes,numeric,YES
+stg,activity,batch_id,text,YES
+stg,activity_decision,activity_id,character varying,YES
+stg,activity_decision,digital_customer_id,character varying,YES
+stg,activity_decision,activity_ts,timestamp without time zone,YES
+stg,activity_decision,channel,character varying,YES
+stg,activity_decision,activity_type,character varying,YES
+stg,activity_decision,device_type,character varying,YES
+stg,activity_decision,session_minutes,numeric,YES
+stg,activity_decision,batch_id,text,YES
+stg,activity_decision,customer_key,integer,YES
+stg,activity_decision,disposition,text,YES
+stg,case_decision,case_id,character varying,YES
+stg,case_decision,digital_customer_id,character varying,YES
+stg,case_decision,opened_ts,timestamp without time zone,YES
+stg,case_decision,closed_ts,timestamp without time zone,YES
+stg,case_decision,case_type,character varying,YES
+stg,case_decision,priority,character varying,YES
+stg,case_decision,status,character varying,YES
+stg,case_decision,batch_id,text,YES
+stg,case_decision,customer_key,integer,YES
+stg,case_decision,disposition,text,YES
+stg,customer,customer_id,character varying,YES
+stg,customer,first_name,character varying,YES
+stg,customer,last_name,character varying,YES
+stg,customer,date_of_birth,date,YES
+stg,customer,email,character varying,YES
+stg,customer,phone,character varying,YES
+stg,customer,address_line,character varying,YES
+stg,customer,suburb,character varying,YES
+stg,customer,state,character varying,YES
+stg,customer,postcode,character varying,YES
+stg,customer,customer_segment,character varying,YES
+stg,customer,created_date,date,YES
+stg,customer,status,character varying,YES
+stg,customer,batch_id,text,YES
+stg,customer_account,customer_id,character varying,YES
+stg,customer_account,account_id,character varying,YES
+stg,customer_account,ownership_type,character varying,YES
+stg,customer_account,relationship_from,date,YES
+stg,customer_account,batch_id,text,YES
+stg,digital_customer,digital_customer_id,character varying,YES
+stg,digital_customer,first_name,character varying,YES
+stg,digital_customer,last_name,character varying,YES
+stg,digital_customer,date_of_birth,date,YES
+stg,digital_customer,email,character varying,YES
+stg,digital_customer,phone,character varying,YES
+stg,digital_customer,signup_date,date,YES
+stg,digital_customer,preferred_channel,character varying,YES
+stg,digital_customer,batch_id,text,YES
+stg,payment_customer,payment_customer_id,character varying,YES
+stg,payment_customer,first_name,character varying,YES
+stg,payment_customer,last_name,character varying,YES
+stg,payment_customer,date_of_birth,date,YES
+stg,payment_customer,email,character varying,YES
+stg,payment_customer,phone,character varying,YES
+stg,payment_customer,registered_date,date,YES
+stg,payment_customer,batch_id,text,YES
+stg,payment_transaction,transaction_id,character varying,YES
+stg,payment_transaction,source_transaction_ref,character varying,YES
+stg,payment_transaction,payment_customer_id,character varying,YES
+stg,payment_transaction,account_id,character varying,YES
+stg,payment_transaction,transaction_ts,timestamp without time zone,YES
+stg,payment_transaction,transaction_type,character varying,YES
+stg,payment_transaction,amount,numeric,YES
+stg,payment_transaction,currency,character varying,YES
+stg,payment_transaction,channel,character varying,YES
+stg,payment_transaction,merchant_category,character varying,YES
+stg,payment_transaction,status,character varying,YES
+stg,payment_transaction,batch_id,text,YES
+stg,service_case,case_id,character varying,YES
+stg,service_case,digital_customer_id,character varying,YES
+stg,service_case,opened_ts,timestamp without time zone,YES
+stg,service_case,closed_ts,timestamp without time zone,YES
+stg,service_case,case_type,character varying,YES
+stg,service_case,priority,character varying,YES
+stg,service_case,status,character varying,YES
+stg,service_case,batch_id,text,YES
+stg,tx_decision,transaction_id,character varying,YES
+stg,tx_decision,source_transaction_ref,character varying,YES
+stg,tx_decision,payment_customer_id,character varying,YES
+stg,tx_decision,account_id,character varying,YES
+stg,tx_decision,transaction_ts,timestamp without time zone,YES
+stg,tx_decision,transaction_type,character varying,YES
+stg,tx_decision,amount,numeric,YES
+stg,tx_decision,currency,character varying,YES
+stg,tx_decision,channel,character varying,YES
+stg,tx_decision,merchant_category,character varying,YES
+stg,tx_decision,status,character varying,YES
+stg,tx_decision,batch_id,text,YES
+stg,tx_decision,rn,bigint,YES
+stg,tx_decision,customer_key,integer,YES
+stg,tx_decision,account_key,integer,YES
+stg,tx_decision,disposition,text,YES

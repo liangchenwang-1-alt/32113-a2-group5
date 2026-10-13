@@ -1,0 +1,338 @@
+{
+  "status": "PASS",
+  "reason": "",
+  "scope": "Course lab container integrated full source fixture pipeline",
+  "identity_branch_baseline": "9b25245",
+  "main_baseline": "e8bc152e8c14724fd272921430e42e96bb4e364b",
+  "effective_compose": "/workspace/delivery/config/docker-compose.yml",
+  "input_sha256": {
+    "delivery/pipeline/10_stage.sql": "684255e79390af622fd0d9c7cf8d5c3aee86634100eefe8f3a4cfae3ecd5d90a",
+    "delivery/pipeline/20_warehouse.sql": "5361b867e17ba46a42f67913f7b0b5d6b92b8b11daa4db97a82f773fc3032d16",
+    "delivery/pipeline/30_identity.sql": "4d0b2a68e7aa5f8eb7f92cafb475c805c7afc9770fd0ba7b3779c6cd42afe630",
+    "delivery/pipeline/40_facts.sql": "04391420bcbd0465fd68a738cd5d2f7e9a8ce1aa45a3dbb4725f49a396917fc0",
+    "delivery/pipeline/50_reports.sql": "36a105f94ffcf831de17fb3c0a16f3f55c62a4f9265d43cf625d10f6a8a3b77a",
+    "delivery/pipeline/60_checks.sql": "851369702c58859600c87f77f711762f8d10c6cb82209040f6bcdf47ee3ab4db",
+    "delivery/pipeline/65_guard_checks.sql": "0be0ad081e79cdb2303f820d70c94fc4a001d86f0153fe15c0603062d024f1be",
+    "delivery/pipeline/70_identity_tests.sql": "de07f4697ef5e92132dcf0c1fd9a330a378f9f5b55dd4c788ce6d9232ae30099",
+    "source_systems/01_create_source_databases.sql": "9360b3bdb4a66e5a4fdd1e9413437dac95dfe14dcd26df024fbc7e4559510288",
+    "source_systems/02_create_core_banking.sql": "95f48f4292c96178ce6bca33fd8ac762cf38a2f207f64a8797e2df3487d0f325",
+    "source_systems/03_create_payments.sql": "5000031d8b8a1248b7ae9d429ced6173541fe6ddb7116ad1c14496a93f5459ec",
+    "source_systems/04_create_digital_service.sql": "28d432700a0deb830d83520c54e44a5dd4d7a0594b1f24d5703158903a7cfc03",
+    "source_systems/05_generate_core_data.sql": "787ea8837d7c4227780217a5b06555801a3518b9d3b7045deb122709bc760f39",
+    "source_systems/06_generate_payment_data.sql": "c7be573705fede8bd4f113d2b9b4aaba4bdb29086a9d9425d85635744031052f",
+    "source_systems/07_generate_digital_data.sql": "d088c7f1346308f94a2be064c4db4f6db6ef56c1b00926de2d115a4712a23fdb",
+    "source_systems/08_insert_edge_cases.sql": "303039ebc87ca857a3caace35b073b091e7855cf1401910d3deed78ad9e2dc18",
+    "source_systems/09_source_validation.sql": "52c9d130d2652a39c49e2ff54583149bf9b5d971f783bf0d99c15ba9b4671914",
+    "source_systems/expected_results.csv": "5a68797575c245ced9466d2b3030b0720e816c8e954d9154ffbb44d9d7fa0567",
+    "source_systems/README_source_systems.md": "889203234956086e7859bf51366adf89357bc503d2afda9abd4ff1195db2587e",
+    "source_systems/source_er_diagram.md": "ec43f60dd1fa9a8bd8e1f138637f20c7ca06600a4669875224ec2998029bf5af",
+    "source_systems/source_field_dictionary.csv": "7699722c533cdc5ecd5c09aeface7b1e06f83555ccfda2b6905d0803d67002f0",
+    "delivery/queries/audit.sql": "1afd84d9c7c4d91d02f78317f61369bd163a9926fbd19f4b95be81e3e0523657",
+    "delivery/queries/demo.sql": "3671f33ed4aa800d83064fb5f5b37b50474350a26270aac4db3c2ce5faf36b01",
+    "delivery/queries/guards.sql": "0be0ad081e79cdb2303f820d70c94fc4a001d86f0153fe15c0603062d024f1be",
+    "delivery/queries/identity.sql": "d51714310c6ecdbd6ce0045d7c6535a1f00c45d61cd123d4f4b5efff64c87181",
+    "delivery/queries/overview.sql": "593fa0390a7e129af817bde5536959b124fdae1a33e3933425b80adc94568f46",
+    "delivery/queries/rejects.sql": "2a3f8a30de51af792cd610e58843f10637832c20e3b319626b483a56534926b6",
+    "delivery/queries/reports.sql": "457392cb8d28801a3cb91a15a81ad3ee586367dc7f0fd4bb7ee0ebc97a2365e5",
+    "delivery/queries/sources.sql": "1b403c6455b9507df40982dd40e11bfbc316242ea59da10d215784c2743be695",
+    "delivery/queries/trace.sql": "4e61598eadc9ada920c1c57f4056148ba462469280c0390a8598ea5330905198",
+    "delivery/config/docker-compose.yml": "d1bef94206ff18dc1c97d282a93cf09f4d2820f8251752a090a88779c7044464",
+    "delivery/config/Dockerfile": "20ca9861922faa62810b4509cba9cf418165af50d9c49cfbd178267320426396",
+    "delivery/config/requirements.txt": "549a673845c744e18e08835367ae782b5964850bc6fba1d8af79ad81149dacad",
+    "delivery/dashboard.py": "de09cfdc2d96ae256d5d3ed0bbb8741b9de65a4fd766587b006c334bfff141a2",
+    "delivery/inspect_results.py": "44cb7919b8abc0246f1c62928ba444aeaea8687dd892cca517fc5dcb55c8729e",
+    "delivery/run_all.py": "d3a8762878aaed0198e41e239a76a8372380979c7a67dd7d90076a4f443a20d6"
+  },
+  "steps": [
+    {
+      "step": "00_audit_setup",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_batch_start",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_01_create_source_databases",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_02_create_core_banking",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_03_create_payments",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_04_create_digital_service",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_05_generate_core_data",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_06_generate_payment_data",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_07_generate_digital_data",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_08_insert_edge_cases",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_09_source_validation",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_10_stage",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_20_warehouse",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_30_identity",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_40_facts",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_50_reports",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_60_checks",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_65_guard_checks",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_70_identity_tests",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_expected_identity",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_fingerprints",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_identity_pipeline",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_after_identity_fingerprints",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_negative_amount",
+      "exit_code": 3,
+      "expected_failure": true
+    },
+    {
+      "step": "run1_after_negative_fingerprints",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run1_batch_pass",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_batch_start",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_01_create_source_databases",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_02_create_core_banking",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_03_create_payments",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_04_create_digital_service",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_05_generate_core_data",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_06_generate_payment_data",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_07_generate_digital_data",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_08_insert_edge_cases",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_09_source_validation",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_10_stage",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_20_warehouse",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_30_identity",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_40_facts",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_50_reports",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_60_checks",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_65_guard_checks",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_70_identity_tests",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_expected_identity",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_fingerprints",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_identity_pipeline",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_after_identity_fingerprints",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_negative_amount",
+      "exit_code": 3,
+      "expected_failure": true
+    },
+    {
+      "step": "run2_after_negative_fingerprints",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "run2_batch_pass",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "export_v_r1_customer_360",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "export_v_r2_transaction_by_date_channel",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "export_v_r2b_transaction_by_channel",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "export_v_r3_channel_engagement",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "export_v_r4_service_case_summary",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "export_v_r5_data_quality_kpi",
+      "exit_code": 0,
+      "expected_failure": false
+    },
+    {
+      "step": "export_v_r6_attribution_reconciliation",
+      "exit_code": 0,
+      "expected_failure": false
+    }
+  ]
+}

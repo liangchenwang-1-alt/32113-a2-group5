@@ -1,0 +1,36 @@
+EXIT: 0
+EXPECTED_FAILURE: False
+STDOUT:
+DO
+ automated_acceptance 
+----------------------
+ PASS
+(1 row)
+
+     step     | source_count | loaded_count | rejected_count | excluded_count 
+--------------+--------------+--------------+----------------+----------------
+ activity     |         1000 |          999 |              1 |              0
+ service_case |          100 |           99 |              1 |              0
+ transaction  |         2002 |         1807 |              3 |            192
+(3 rows)
+
+ source_system |   match_rule   | match_status | count 
+---------------+----------------+--------------+-------
+ S1            | R1_CORE_ID     | matched      |   200
+ S2            | NONE           | ambiguous    |     1
+ S2            | NONE           | unmatched    |     1
+ S2            | R2_DOB_CONTACT | matched      |   189
+ S3            | R2_DOB_CONTACT | matched      |   186
+(5 rows)
+
+ source_table | source_key |          reason           
+--------------+------------+---------------------------
+ activity     | ACT000050  | REJECT_CUSTOMER_REFERENCE
+ service_case | SC00020    | REJECT_CUSTOMER_REFERENCE
+ transaction  | T000250    | REJECT_ACCOUNT
+ transaction  | T002001    | REJECT_DUPLICATE
+ transaction  | T002002    | REJECT_CUSTOMER_REFERENCE
+(5 rows)
+
+
+STDERR:

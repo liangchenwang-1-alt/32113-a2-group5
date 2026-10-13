@@ -1,0 +1,6 @@
+﻿channel_code,channel_name,active_customers,activity_count
+ATM,ATM,0,0
+BRANCH,BRANCH,0,0
+CARD,CARD,0,0
+MOBILE,MOBILE,93,500
+WEB,WEB,93,499

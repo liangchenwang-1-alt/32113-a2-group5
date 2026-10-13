@@ -1,0 +1,186 @@
+# 32113 A2 最终演示操作步骤
+
+本操作单用于当前桌面精简版，Liangchen Wang 成员 1。它指导操作和理解，不代替作业报告，也不表示小组已完成签字记录、录像和正式提交。先练习一次，再录制正式演示。
+
+## 1 打开 Docker Desktop
+
+等待 Docker 引擎启动。此时不要删除容器或数据卷。准备一份自己能找到的 CloudBeaver 管理员账号密码记录，不要在录屏中展示密码。管理员账号之前是 gp5；数据库账号另为 student / student。
+
+## 2 打开 PowerShell
+
+请先在文件资源管理器中打开 `32113-A2-Delivery-Liangchen` 文件夹，在地址栏输入 `powershell` 并按 Enter。这样 PowerShell 会直接在项目根目录打开，不依赖压缩包被解压到哪个父目录。确认当前目录有 `DEMO.ps1` 后，复制下面命令运行。该命令只会对本次启动的脚本临时放行执行策略，不会永久修改电脑设置。
+
+```powershell
+if (-not (Test-Path -LiteralPath '.\DEMO.ps1')) { throw '当前目录找不到 DEMO.ps1；请先进入 32113-A2-Delivery-Liangchen 项目根目录。' }
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\DEMO.ps1 -Mode Build
+if ($LASTEXITCODE -ne 0) { throw '演示运行失败，请先处理上面的错误，不要继续。' }
+```
+
+这一步会启动课程五项服务，生成本项目的合成来源数据，依次执行整合、身份匹配、事实加载、报表和测试，再重建一次对比结果。它会覆盖本项目的样本表；audit 历史保留。不要同时从另一份项目副本运行。
+
+运行时等待结束，不要反复回车。首次下载或构建镜像较慢。如果是正式录像，提前完成镜像下载和管理员登录；录像时仍运行这段完整流程，证明端到端可执行。
+
+## 3 判断是否成功
+
+最后应出现 DEMO READY，前面有 PASS 及证据目录；如果报错就停在这里。业务概览应为客户 200、账户 300、交易 1807、金额 1987975.99、活动 999、服务案例 99。T9 至 T13 检查应通过。程序还会自动执行下面全部演示查询，因此网页暂时出问题时也有终端查询结果可展示。
+
+看到测试日志中 EXPECTED_FAILURE=True 属于受控错误检测：测试给金额加 1，要求检查器发现错误，随后回滚。最终 SUMMARY.json 必须是 PASS；不能把普通 FAIL 当作正常。
+
+## 4 打开两个网页
+
+在刚才的 PowerShell 粘贴：
+
+```powershell
+Start-Process 'http://localhost:8979/'
+Start-Process 'http://localhost:8089/'
+```
+
+8979 是 CloudBeaver，用来执行 SQL；8089 是报表网页。Docker 是运行这些服务的环境，图表不在 Docker 的日志里。
+
+## 5 进入 CloudBeaver 的 SQL 编辑器
+
+如果已登录，直接选择 PostgreSQL@postgres。若要求网页登录，用你自己设置的管理员密码。如果仍出现 server configuration mode，先回设置向导完成 NEXT 和 FINISH，再刷新。
+
+如果没有连接：New Connection → PostgreSQL → Host 填 postgres，Port 填 5432，Database 填 lab，用户名 student，密码 student → TEST → CREATE。这里不能填 15432 或 localhost；那是另一种连接场景。出现数据库验证窗口时也是 student / student。
+
+选中连接，点击顶部 SQL 图标打开 SQL Editor。每次只粘贴下面一段 SQL，选中整段后点击执行按钮或 Ctrl+Enter。替换上一次查询时，先点击编辑区再 Ctrl+A，不要对整个网页全选。多条语句一起执行可能产生多个结果标签。
+
+## 6 展示三个来源
+
+```sql
+SELECT 'S1 customers' AS source,count(*) AS rows FROM s1_core.customer
+UNION ALL SELECT 'S2 payment customers',count(*) FROM s2_payments.payment_customer
+UNION ALL SELECT 'S2 transactions',count(*) FROM s2_payments.transaction
+UNION ALL SELECT 'S3 digital customers',count(*) FROM s3_digital.digital_customer
+UNION ALL SELECT 'S3 activities',count(*) FROM s3_digital.activity
+UNION ALL SELECT 'S3 service cases',count(*) FROM s3_digital.service_case;
+```
+
+预期依次为 200、191、2002、186、1000、100。解释：核心银行、支付、数字服务是三个独立建模的来源，当前用同一个 PostgreSQL 内三个 schema 表示。不要说成三个不同数据库产品；Neo4j 和 ClickHouse 并没有参与这版业务整合。
+
+## 7 展示同一客户跨来源匹配
+
+```sql
+SELECT x.source_system,x.source_customer_id,x.customer_key,c.core_customer_id,
+       x.match_rule,x.match_status
+FROM dw.customer_xref x LEFT JOIN dw.dim_customer c USING(customer_key)
+WHERE x.source_customer_id IN ('C0001','P1001','D1001','P8888','P9999')
+ORDER BY x.source_system,x.source_customer_id;
+```
+
+预期：C0001、P1001、D1001 的 customer_key 都是 1。P8888 是 ambiguous，P9999 是 unmatched，二者不分配客户键。解释：来源编号不同，通过可靠身份信息归到统一客户；不可靠记录保留，不能硬凑成匹配。
+
+```sql
+SELECT match_rule,match_status,count(*) AS rows FROM dw.customer_xref
+GROUP BY match_rule,match_status ORDER BY match_rule,match_status;
+```
+
+R1 匹配 200、R2 匹配 375，其余歧义 1 和未匹配 1；结果不会显示没有记录的 R3 行，表示正式样本 R3 数量为 0。R3 用于缺失出生日期时的姓名加邮箱唯一匹配，不能仅靠姓名；测试中有临时边界样本验证它，结束后回滚。
+
+## 8 展示为什么 2002 笔只载入 1807 笔
+
+```sql
+SELECT disposition,count(*) AS rows,sum(amount) AS amount_aud
+FROM stg.tx_decision GROUP BY disposition ORDER BY disposition;
+```
+
+预期 LOAD 1807，EXCLUDE_STATUS 192，另外三种 REJECT 各 1。解释：2002 = 1807 + 192 + 3，每笔来源交易只有一个去向，不是漏数据。
+
+```sql
+SELECT source_table,source_key,reason,amount_aud FROM dw.rejected_record
+ORDER BY source_table,source_key;
+```
+
+总共 5 条拒绝记录：交易 3 条、数字活动 1 条、服务案例 1 条。它与上面的“交易拒绝 3 条”不矛盾，因为统计范围不同。
+
+## 9 展示三个核心报表
+
+第一个报表是客户 360：
+
+```sql
+SELECT * FROM dw.v_r1_customer_360 WHERE core_customer_id='C0001';
+```
+
+预期 Olivia Nguyen，2 个账户、10 笔交易、11191.93 AUD、6 次活动、1 个案例。解释：先分别聚合每类事实，再连接客户，避免把交易金额重复累加。
+
+第二个报表是渠道交易：
+
+```sql
+SELECT * FROM dw.v_r2b_transaction_by_channel ORDER BY channel_code;
+```
+
+渠道合计为 1807 笔、1987975.99 AUD。金额是被接受交易的正向交易量，不是净现金流，也不是账户余额。
+
+第三个报表是渠道活动：
+
+```sql
+SELECT * FROM dw.v_r3_channel_engagement ORDER BY channel_code;
+```
+
+activity_count 跨渠道合计 999。active_customers 是各渠道内部去重人数，同一个客户能用多个渠道，所以不能简单相加当作总客户人数。
+
+切到 8089 网页并刷新。展示顶部数字、渠道图表，在 Filter detail-table rows 中输入 C0001，再清空。筛选只隐藏明细行，不会重新计算顶部总数和图表。下载一个 CSV，说明它与网页属于同一成功批次。网页是构建后生成的快照，不是实时查询数据库。
+
+## 10 展示验收证据
+
+回到 PowerShell，粘贴下面整段：
+
+```powershell
+$delivery = Join-Path $project 'lab-env\advanced-database-lab\workspace\delivery'
+$latest = (Get-Content -LiteralPath (Join-Path $delivery 'LATEST_EVIDENCE.txt') -Raw).Trim()
+$evidence = Join-Path $delivery $latest
+Get-Content -LiteralPath (Join-Path $evidence 'SUMMARY.md')
+$diff = Compare-Object (Get-Content -LiteralPath (Join-Path $evidence 'run1_fingerprints.csv')) (Get-Content -LiteralPath (Join-Path $evidence 'run2_fingerprints.csv'))
+if ($diff) { $diff; throw '两轮结果不一致' } else { Write-Host '两轮业务表指纹一致 PASS' }
+Invoke-Item -LiteralPath $evidence
+```
+
+打开 SUMMARY.json 看 status=PASS；两个 fingerprint 文件相同，说明两轮业务内容一致，不只是行数一样。选看 run1_65_guard_checks.txt 和 run1_negative_amount.txt。指纹不比较批次号和运行时间，因为这些每次应变化。
+
+在 CloudBeaver 展示最近两个批次：
+
+```sql
+SELECT batch_id,status,started_at,finished_at FROM audit.batch
+ORDER BY started_at DESC LIMIT 2;
+```
+
+预期两行都是 PASS。解释：成员 1 负责运行顺序、模块衔接和整体验收；身份、ETL、报表口径仍由相应组员共同确认。
+
+## 11 完成录制与提交前检查
+
+停止录屏前，确认已录到完整构建、三个来源、身份匹配、拒绝记录、三个报表和测试结果。按小组分工由各成员解释自己的部分，不把操作单当作所有人的贡献证明。播放录像检查声音与文字，上传后用没有所有者权限的方式检查访问，记录真实链接。
+
+代码通过不等于正式作业全部完成。还需老师对三个 schema 作为来源的认可、组员确认规则、另一台电脑复跑、报告、真实贡献表、签字会议记录和展示。最终以 Canvas 要求为准。
+
+## 12 下次练习与停止
+
+只想查看已有结果，不重建：先在 PowerShell 中运行第 2 步的前 3 行定位项目，然后执行：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\DEMO.ps1 -Mode Show
+```
+
+Show 要求服务已在运行；如果只是上次停止了，可以先执行：
+
+```powershell
+Set-Location -LiteralPath (Join-Path $project 'lab-env\advanced-database-lab')
+docker compose start
+Set-Location -LiteralPath $project
+```
+
+如果容器已被移除，重新使用第 2 步的 Build。学习结束后：
+
+```powershell
+Set-Location -LiteralPath (Join-Path $project 'lab-env\advanced-database-lab')
+docker compose stop
+```
+
+不要执行 down -v，它会删除数据卷。管理员配置留在 Docker 数据卷里，代码 ZIP 不包含你的管理员密码。
+
+## 出错时只做这几件事
+
+找不到路径：核对桌面目录名，演示脚本必须位于 32113-A2-Delivery-Liangchen 文件夹根目录。其他电脑可在该文件夹地址栏输入 powershell 打开终端，然后执行 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\DEMO.ps1 -Mode Build。
+
+Docker 连接失败：先打开 Docker Desktop，等引擎启动后重试。数据库网页登录失败：分清自设管理员密码与 student 数据库密码。网页显示旧数字：先确认 Build 最终成功，再刷新。任何 FAIL：保存错误内容，停止展示，不要改数字或删除失败证据来使结果看起来通过。
+
+完整 SQL 也在 lab-env/advanced-database-lab/workspace/delivery/queries/demo.sql。简化的是操作入口和文件结构，数据库检查没有被删减。

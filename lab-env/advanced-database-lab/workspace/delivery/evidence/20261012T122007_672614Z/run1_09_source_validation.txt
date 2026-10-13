@@ -1,0 +1,122 @@
+EXIT: 0
+EXPECTED_FAILURE: False
+STDOUT:
+ check_group |                 check_name                 | observed_count | expected_count | result |                                          notes                                          
+-------------+--------------------------------------------+----------------+----------------+--------+-----------------------------------------------------------------------------------------
+ CLEAN       | account_currency_not_aud                   |              0 |              0 | PASS   | Currency contract is AUD
+ CLEAN       | account_not_single_owner                   |              0 |              0 | PASS   | Prototype accounts have exactly one owner
+ CLEAN       | account_without_owner                      |              0 |              0 | PASS   | Every ACCOUNT has a CUSTOMER_ACCOUNT row
+ CLEAN       | activity_outside_90_day_window             |              0 |              0 | PASS   | 2026-01-01 inclusive to 2026-04-01 exclusive
+ CLEAN       | core_email_null_count                      |              0 |              0 | PASS   | Email is optional but populated for every core customer in this build
+ CLEAN       | core_name_whitespace                       |              0 |              0 | PASS   | Whitespace fixtures are on the payments and digital copies only
+ CLEAN       | domain_account_status                      |              0 |              0 | PASS   | ACTIVE CLOSED
+ CLEAN       | domain_account_type                        |              0 |              0 | PASS   | TRANSACTION SAVINGS CREDIT HOME_LOAN
+ CLEAN       | domain_activity_channel                    |              0 |              0 | PASS   | Activity channel is MOBILE or WEB only
+ CLEAN       | domain_activity_type                       |              0 |              0 | PASS   | LOGIN VIEW_ACCOUNT TRANSFER_FUNDS VIEW_TRANSACTION UPDATE_PROFILE PAY_BILL
+ CLEAN       | domain_case_priority                       |              0 |              0 | PASS   | LOW MEDIUM HIGH
+ CLEAN       | domain_case_status                         |              0 |              0 | PASS   | OPEN CLOSED IN_PROGRESS
+ CLEAN       | domain_case_type                           |              0 |              0 | PASS   | CARD_ISSUE ACCOUNT_QUERY TRANSACTION_DISPUTE LOGIN_PROBLEM LOAN_ENQUIRY GENERAL_ENQUIRY
+ CLEAN       | domain_customer_segment                    |              0 |              0 | PASS   | RETAIL BUSINESS PREMIUM
+ CLEAN       | domain_customer_state                      |              0 |              0 | PASS   | Null state is allowed. Populated values must be an Australian code.
+ CLEAN       | domain_customer_status                     |              0 |              0 | PASS   | ACTIVE INACTIVE. This is not the account status list.
+ CLEAN       | domain_device_type                         |              0 |              0 | PASS   | MOBILE TABLET DESKTOP
+ CLEAN       | domain_merchant_category                   |              0 |              0 | PASS   | Purchase categories plus INTERNAL CASH BILLERS
+ CLEAN       | domain_preferred_channel                   |              0 |              0 | PASS   | MOBILE WEB BRANCH CALL_CENTRE
+ CLEAN       | domain_transaction_channel                 |              0 |              0 | PASS   | MOBILE WEB ATM BRANCH CARD
+ CLEAN       | domain_transaction_status                  |              0 |              0 | PASS   | ACCEPTED DECLINED REVERSED
+ CLEAN       | domain_transaction_type                    |              0 |              0 | PASS   | TRANSFER PURCHASE WITHDRAWAL DEPOSIT BILL_PAYMENT
+ CLEAN       | duplicate_account_id                       |              0 |              0 | PASS   | COUNT minus COUNT DISTINCT
+ CLEAN       | duplicate_activity_id                      |              0 |              0 | PASS   | COUNT minus COUNT DISTINCT
+ CLEAN       | duplicate_business_ref_excluding_fixture   |              0 |              0 | PASS   | Excludes deliberate reference BREF-000100
+ CLEAN       | duplicate_case_id                          |              0 |              0 | PASS   | COUNT minus COUNT DISTINCT
+ CLEAN       | duplicate_core_customer_id                 |              0 |              0 | PASS   | COUNT minus COUNT DISTINCT
+ CLEAN       | duplicate_customer_account_pair            |              0 |              0 | PASS   | Composite key customer_id + account_id
+ CLEAN       | duplicate_digital_customer_id              |              0 |              0 | PASS   | COUNT minus COUNT DISTINCT
+ CLEAN       | duplicate_payment_customer_id              |              0 |              0 | PASS   | COUNT minus COUNT DISTINCT
+ CLEAN       | duplicate_transaction_id                   |              0 |              0 | PASS   | COUNT minus COUNT DISTINCT
+ CLEAN       | format_account_id                          |              0 |              0 | PASS   | Expected A#####
+ CLEAN       | format_activity_id                         |              0 |              0 | PASS   | Expected ACT######
+ CLEAN       | format_case_id                             |              0 |              0 | PASS   | Expected SC#####
+ CLEAN       | format_core_customer_id                    |              0 |              0 | PASS   | Expected C####
+ CLEAN       | format_digital_customer_id                 |              0 |              0 | PASS   | Expected D####. D0000 is a child-row reference and is not a customer row.
+ CLEAN       | format_payment_customer_id                 |              0 |              0 | PASS   | Expected P####. P0000 is a transaction reference and is not a customer row.
+ CLEAN       | format_transaction_id                      |              0 |              0 | PASS   | Expected T######
+ CLEAN       | invalid_account_excluding_fixture          |              0 |              0 | PASS   | Excludes deliberate row T000250
+ CLEAN       | missing_payment_customer_excluding_fixture |              0 |              0 | PASS   | Excludes deliberate row T002002
+ CLEAN       | non_positive_session_minutes               |              0 |              0 | PASS   | session_minutes must be positive
+ CLEAN       | non_positive_transaction_amount            |              0 |              0 | PASS   | Amount is an AUD magnitude. Direction is transaction_type.
+ CLEAN       | null_required_account                      |              0 |              0 | PASS   | All ACCOUNT columns are required
+ CLEAN       | null_required_activity                     |              0 |              0 | PASS   | All ACTIVITY columns are required
+ CLEAN       | null_required_core_customer                |              0 |              0 | PASS   | customer_id first_name last_name date_of_birth customer_segment created_date status
+ CLEAN       | null_required_customer_account             |              0 |              0 | PASS   | All CUSTOMER_ACCOUNT columns are required
+ CLEAN       | null_required_digital_customer             |              0 |              0 | PASS   | email and phone are optional
+ CLEAN       | null_required_payment_customer             |              0 |              0 | PASS   | email and phone are optional
+ CLEAN       | null_required_service_case                 |              0 |              0 | PASS   | closed_ts is optional
+ CLEAN       | null_required_transaction                  |              0 |              0 | PASS   | All TRANSACTION columns are required
+ CLEAN       | orphan_activity_excluding_fixture          |              0 |              0 | PASS   | Excludes deliberate row ACT000050
+ CLEAN       | orphan_service_case_excluding_fixture      |              0 |              0 | PASS   | Excludes deliberate row SC00020
+ CLEAN       | ownership_account_missing                  |              0 |              0 | PASS   | Every CUSTOMER_ACCOUNT.account_id exists in ACCOUNT
+ CLEAN       | ownership_customer_missing                 |              0 |              0 | PASS   | Every CUSTOMER_ACCOUNT.customer_id exists in CUSTOMER
+ CLEAN       | ownership_type_domain                      |              0 |              0 | PASS   | Allowed value: PRIMARY
+ CLEAN       | row_count_account                          |            300 |            300 | PASS   | CORE.ACCOUNT
+ CLEAN       | row_count_activity                         |           1000 |           1000 | PASS   | DIGITAL_SRC.ACTIVITY
+ CLEAN       | row_count_core_customer                    |            200 |            200 | PASS   | CORE.CUSTOMER
+ CLEAN       | row_count_customer_account                 |            300 |            300 | PASS   | CORE.CUSTOMER_ACCOUNT one owner row per account
+ CLEAN       | row_count_digital_customer                 |            186 |            186 | PASS   | DIGITAL_SRC.DIGITAL_CUSTOMER
+ CLEAN       | row_count_payment_customer                 |            191 |            191 | PASS   | 189 overlapping customers plus P8888 and P9999
+ CLEAN       | row_count_service_case                     |            100 |            100 | PASS   | DIGITAL_SRC.SERVICE_CASE
+ CLEAN       | row_count_transaction                      |           2002 |           2002 | PASS   | 2000 generated rows plus T002001 and T002002
+ CLEAN       | service_case_close_before_open             |              0 |              0 | PASS   | opened_ts <= closed_ts whenever closed_ts is not null
+ CLEAN       | service_case_status_timestamp_mismatch     |              0 |              0 | PASS   | CLOSED has closed_ts. OPEN and IN_PROGRESS do not.
+ CLEAN       | transaction_currency_not_aud               |              0 |              0 | PASS   | Currency contract is AUD
+ CLEAN       | transaction_outside_90_day_window          |              0 |              0 | PASS   | 2026-01-01 inclusive to 2026-04-01 exclusive
+ FIXTURE     | digital_name_whitespace_rows               |              1 |              1 | PASS   | Only D1010 carries leading or trailing spaces
+ FIXTURE     | ec01_ec02_core_email                       |              1 |              1 | PASS   | C0001 email olivia.nguyen@example.test
+ FIXTURE     | ec02_digital_email_case                    |              1 |              1 | PASS   | D1001 email OLIVIA.NGUYEN@example.test
+ FIXTURE     | ec02_payment_email_case                    |              1 |              1 | PASS   | P1001 email Olivia.Nguyen@EXAMPLE.TEST
+ FIXTURE     | ec04_core_phone                            |              1 |              1 | PASS   | C0002 phone 0412345678
+ FIXTURE     | ec04_digital_phone                         |              1 |              1 | PASS   | D1002 phone 0412 345 678
+ FIXTURE     | ec04_payment_phone                         |              1 |              1 | PASS   | P1002 phone +61 412 345 678
+ FIXTURE     | ec05_missing_phone_three_sources           |              3 |              3 | PASS   | C0005 P1005 and D1005 each have a null phone
+ FIXTURE     | ec06_unmatched_p9999                       |              1 |              1 | PASS   | P9999 has no core row with the same name and date of birth
+ FIXTURE     | ec07_duplicate_bref_000100                 |              2 |              2 | PASS   | T000100 and T002001 share BREF-000100
+ FIXTURE     | ec08_invalid_account_a99999                |              1 |              1 | PASS   | T000250.account_id = A99999
+ FIXTURE     | ec09_ambiguous_core_name                   |              2 |              2 | PASS   | C0011 and C0012 are both Alex Nguyen with different DOB and email
+ FIXTURE     | ec09_ambiguous_payment_p8888               |              1 |              1 | PASS   | P8888 is Alex Nguyen but matches neither core date of birth
+ FIXTURE     | ec10_whitespace_and_gmail_case             |              3 |              3 | PASS   | Core John Smith plus payment whitespace/case plus digital whitespace/case
+ FIXTURE     | ec11_orphan_activity                       |              1 |              1 | PASS   | ACT000050 points at D0000
+ FIXTURE     | ec12_orphan_service_case                   |              1 |              1 | PASS   | SC00020 points at D0000
+ FIXTURE     | ec13_unknown_payment_customer              |              1 |              1 | PASS   | T002002 points at P0000
+ FIXTURE     | ec14_no_digital_profile                    |              0 |              0 | PASS   | D1003 must be absent. P1003 remains.
+ FIXTURE     | ec14_payment_profile_present               |              1 |              1 | PASS   | P1003 is the payments id for C0003
+ FIXTURE     | ec15_digital_profile_present               |              1 |              1 | PASS   | D1004 is the digital id for C0004
+ FIXTURE     | ec15_no_payment_profile                    |              0 |              0 | PASS   | P1004 must be absent. D1004 remains.
+ FIXTURE     | payment_name_whitespace_rows               |              1 |              1 | PASS   | Only P1010 carries leading or trailing spaces
+(89 rows)
+
+       fixture_type       | entity_id | detail_value |                         notes                         
+--------------------------+-----------+--------------+-------------------------------------------------------
+ DUPLICATE_SOURCE_REF     | T000100   | BREF-000100  | EC-07 same business reference on two transaction keys
+ DUPLICATE_SOURCE_REF     | T002001   | BREF-000100  | EC-07 same business reference on two transaction keys
+ INVALID_ACCOUNT          | T000250   | A99999       | EC-08 account id is not in CORE.ACCOUNT
+ MISSING_PAYMENT_CUSTOMER | T002002   | P0000        | EC-13 payment customer id is not in PAYMENT_CUSTOMER
+ ORPHAN_ACTIVITY          | ACT000050 | D0000        | EC-11 digital customer id is not in DIGITAL_CUSTOMER
+ ORPHAN_SERVICE_CASE      | SC00020   | D0000        | EC-12 digital customer id is not in DIGITAL_CUSTOMER
+(6 rows)
+
+ core_customer_id | payment_customer_id | digital_customer_id | core_first_name | payment_first_name | digital_first_name | core_last_name | payment_last_name | digital_last_name |  core_dob  | payment_dob | digital_dob |             core_email             |           payment_email            |           digital_email            | core_phone |  payment_phone  | digital_phone 
+------------------+---------------------+---------------------+-----------------+--------------------+--------------------+----------------+-------------------+-------------------+------------+-------------+-------------+------------------------------------+------------------------------------+------------------------------------+------------+-----------------+---------------
+ C0001            | P1001               | D1001               | Olivia          | Olivia             | Olivia             | Nguyen         | Nguyen            | Nguyen            | 1991-04-12 | 1991-04-12  | 1991-04-12  | olivia.nguyen@example.test         | Olivia.Nguyen@EXAMPLE.TEST         | OLIVIA.NGUYEN@example.test         | 0412001001 | 0412001001      | 0412001001
+ C0002            | P1002               | D1002               | Liam            | Liam               | Liam               | Patel          | Patel             | Patel             | 1988-11-03 | 1988-11-03  | 1988-11-03  | liam.patel@example.test            | liam.patel@example.test            | liam.patel@example.test            | 0412345678 | +61 412 345 678 | 0412 345 678
+ C0003            | P1003               |                     | Amelia          | Amelia             |                    | Williams       | Williams          |                   | 1965-11-02 | 1965-11-02  |             | amelia.williams.c0003@example.test | amelia.williams.c0003@example.test |                                    | 0400144813 | 0400144813      | 
+ C0004            |                     | D1004               | Oliver          |                    | Oliver             | Williams       |                   | Williams          | 1966-02-07 |             | 1966-02-07  | oliver.williams.c0004@example.test |                                    | oliver.williams.c0004@example.test | 0400193084 |                 | 0400193084
+ C0005            | P1005               | D1005               | Isla            | Isla               | Isla               | Williams       | Williams          | Williams          | 1966-05-15 | 1966-05-15  | 1966-05-15  | isla.williams.c0005@example.test   | isla.williams.c0005@example.test   | isla.williams.c0005@example.test   |            |                 | 
+ C0010            | P1010               | D1010               | John            |  John              | JOHN               | Smith          | SMITH             |  Smith            | 1986-06-15 | 1986-06-15  | 1986-06-15  | john.smith@gmail.com               | John.Smith@GMAIL.COM               | john.smith@gmail.com               | 0412001010 | 0412001010      | 0412001010
+ C0011            | P1011               | D1011               | Alex            | Alex               | Alex               | Nguyen         | Nguyen            | Nguyen            | 1990-03-15 | 1990-03-15  | 1990-03-15  | alex.nguyen.11@example.test        | alex.nguyen.11@example.test        | alex.nguyen.11@example.test        | 0411110011 | 0411110011      | 0411110011
+ C0012            | P1012               | D1012               | Alex            | Alex               | Alex               | Nguyen         | Nguyen            | Nguyen            | 1985-07-22 | 1985-07-22  | 1985-07-22  | alex.nguyen.12@example.test        | alex.nguyen.12@example.test        | alex.nguyen.12@example.test        | 0411110012 | 0411110012      | 0411110012
+                  | P8888               |                     |                 | Alex               |                    |                | Nguyen            |                   |            | 1979-01-01  |             |                                    | alex.nguyen.other@example.test     |                                    |            |                 | 
+                  | P9999               |                     |                 | Quinn              |                    |                | Harper            |                   |            | 1995-12-01  |             |                                    | quinn.harper.p9999@example.test    |                                    |            | 0419999999      | 
+(10 rows)
+
+
+STDERR:

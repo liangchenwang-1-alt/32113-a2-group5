@@ -1,0 +1,18 @@
+EXIT: 0
+EXPECTED_FAILURE: False
+STDOUT:
+DROP TABLE
+DROP TABLE
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+
+STDERR:
+NOTICE:  table "service_case" does not exist, skipping
+NOTICE:  table "activity" does not exist, skipping
+NOTICE:  table "digital_customer" does not exist, skipping

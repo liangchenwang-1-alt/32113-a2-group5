@@ -1,0 +1,17 @@
+EXIT: 0
+EXPECTED_FAILURE: False
+STDOUT:
+DROP TABLE
+DROP TABLE
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+COMMENT
+COMMENT
+COMMENT
+
+STDERR:
+NOTICE:  table "customer_account" does not exist, skipping
+NOTICE:  table "account" does not exist, skipping
+NOTICE:  table "customer" does not exist, skipping

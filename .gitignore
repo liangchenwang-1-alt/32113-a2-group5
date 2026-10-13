@@ -7,10 +7,14 @@
 
 # 1) ignore everything at the repository root ...
 /*
-# ... except the public README, this file, and the Lab Environment folder
+# ... except the public README, this file, the Lab Environment folder, and the demo package
 !/README.md
 !/.gitignore
 !/lab-env/
+!/DEMO.ps1
+!/DEMO_GUIDE.html
+!/DEMO_GUIDE.md
+!/PACKAGE_SHA256.json
 
 # 2) the container data volume (created locally by Docker, several hundred MB)
 /lab-env/advanced-database-lab/data/
@@ -43,3 +47,9 @@ desktop.ini
 # 8) Python bytecode
 __pycache__/
 *.pyc
+
+# Generated read-only inspection output (full-run evidence is kept)
+**/evidence/inspect_*/
+
+# Python bytecode generated locally
+*.py[cod]

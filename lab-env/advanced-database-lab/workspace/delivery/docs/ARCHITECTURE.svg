@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="860" viewBox="0 0 1100 860">
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L9 3L0 6" fill="#456"/></marker></defs>
+<rect width="1100" height="860" fill="white"/>
+<g font-family="Arial,sans-serif" fill="#172e42">
+<text x="45" y="50" font-size="27" font-weight="bold">Customer 360 integrated learning workflow</text>
+<text x="45" y="82" font-size="17">Liangchen Wang · PostgreSQL 15 · synthetic data · 12 October 2026</text>
+<g fill="#edf3f9" stroke="#7391aa"><rect x="45" y="120" width="310" height="85"/><rect x="395" y="120" width="310" height="85"/><rect x="745" y="120" width="310" height="85"/></g>
+<g font-size="17" text-anchor="middle"><text x="200" y="150">s1_core</text><text x="200" y="177">200 customers · 300 accounts</text><text x="550" y="150">s2_payments</text><text x="550" y="177">191 profiles · 2002 transactions</text><text x="900" y="150">s3_digital</text><text x="900" y="177">186 profiles · 1000 events · 100 cases</text></g>
+<path d="M200 205V235H550 M900 205V235H550 M550 205V265" stroke="#456" fill="none" stroke-width="2" marker-end="url(#a)"/>
+
+<rect x="120" y="270" width="860" height="80" fill="#fff4df" stroke="#b69044"/>
+<text x="550" y="303" text-anchor="middle" font-size="20">stg current-batch snapshots</text>
+<text x="550" y="328" text-anchor="middle" font-size="16">Original source IDs + batch_id; classify every event before loading</text>
+<path d="M550 350V400" stroke="#456" stroke-width="2" marker-end="url(#a)"/>
+<rect x="120" y="405" width="860" height="100" fill="#edf5ef" stroke="#609278"/>
+<text x="550" y="438" text-anchor="middle" font-size="20">dw dimensions + customer_xref + facts</text>
+<text x="550" y="465" text-anchor="middle" font-size="16">Normalised identity; accounts before facts; dates from actual source range</text>
+<text x="550" y="489" text-anchor="middle" font-size="16">Transaction: 1807 LOAD + 3 REJECT + 192 EXCLUDE = 2002</text>
+<path d="M550 505V551" stroke="#456" stroke-width="2" marker-end="url(#a)"/>
+<rect x="120" y="556" width="860" height="85" fill="#f1edfa" stroke="#8874a3"/>
+<text x="550" y="588" text-anchor="middle" font-size="20">Warehouse-only reports → CSV and HTML snapshot</text>
+<text x="550" y="617" text-anchor="middle" font-size="16">Customer 360 · transactions · channels · case status; no invented case channel</text>
+<rect x="45" y="690" width="1010" height="125" fill="#f8f9fa" stroke="#b6c0cb"/>
+<text x="70" y="722" font-size="19" font-weight="bold">Validation and evidence across both builds</text>
+<text x="70" y="750" font-size="16">89 source checks · 577 identity expectations · 5 rejected fixtures · report reconciliation</text>
+<text x="70" y="776" font-size="16">9 table fingerprints · identity positive/negative examples · intentional error and rollback</text>
+<text x="70" y="802" font-size="16">Persistent audit.batch + audit.step_counts; complete logs and input hashes</text>
+</g></svg>
+

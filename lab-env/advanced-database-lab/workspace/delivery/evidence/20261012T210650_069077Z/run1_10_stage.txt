@@ -1,0 +1,29 @@
+EXIT: 0
+EXPECTED_FAILURE: False
+STDOUT:
+BEGIN
+CREATE SCHEMA
+DROP TABLE
+DROP TABLE
+SELECT 200
+SELECT 300
+SELECT 300
+SELECT 191
+SELECT 2002
+SELECT 186
+SELECT 1000
+SELECT 100
+COMMIT
+
+STDERR:
+NOTICE:  table "tx_decision" does not exist, skipping
+NOTICE:  table "activity_decision" does not exist, skipping
+NOTICE:  table "case_decision" does not exist, skipping
+NOTICE:  table "customer" does not exist, skipping
+NOTICE:  table "account" does not exist, skipping
+NOTICE:  table "customer_account" does not exist, skipping
+NOTICE:  table "payment_customer" does not exist, skipping
+NOTICE:  table "payment_transaction" does not exist, skipping
+NOTICE:  table "digital_customer" does not exist, skipping
+NOTICE:  table "activity" does not exist, skipping
+NOTICE:  table "service_case" does not exist, skipping

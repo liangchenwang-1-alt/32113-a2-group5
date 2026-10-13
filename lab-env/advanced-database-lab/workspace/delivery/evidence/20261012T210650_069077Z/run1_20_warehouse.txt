@@ -1,0 +1,49 @@
+EXIT: 0
+EXPECTED_FAILURE: False
+STDOUT:
+BEGIN
+CREATE SCHEMA
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+COMMIT
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+
+STDERR:
+NOTICE:  table "fact_service_case" does not exist, skipping
+NOTICE:  table "fact_activity" does not exist, skipping
+NOTICE:  table "fact_transaction" does not exist, skipping
+NOTICE:  table "customer_xref" does not exist, skipping
+NOTICE:  table "dim_account" does not exist, skipping
+NOTICE:  table "dim_customer" does not exist, skipping
+NOTICE:  table "dim_date" does not exist, skipping
+NOTICE:  table "dim_channel" does not exist, skipping
+NOTICE:  table "etl_run_log" does not exist, skipping
+NOTICE:  table "rejected_record" does not exist, skipping

@@ -1,0 +1,10 @@
+table_name,rows,fingerprint
+customer_xref,577,5ce6a963bfe0c96324d35da867aff56e
+dim_account,300,8907d238b6faa276ad4e8f8c494b3c95
+dim_channel,5,a2f2a13d6003e78a2d6f36b773874d0e
+dim_customer,200,015b7aec79ea40aeaa856526ec6fa1e1
+dim_date,90,8736bf5cd0ea5a1da8d5060834d2b090
+fact_activity,999,a3c6d79efe737d8429de2d4ba59533a7
+fact_service_case,99,beaba77f960bb42a4c4886e41e7e1974
+fact_transaction,1807,6739712338c3b7c91cd66db1f9c33019
+rejected_record,5,950b04c90b6151e159b239f5a953de41

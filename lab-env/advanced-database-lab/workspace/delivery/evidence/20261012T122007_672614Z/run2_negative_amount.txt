@@ -1,0 +1,9 @@
+EXIT: 3
+EXPECTED_FAILURE: True
+STDOUT:
+BEGIN
+UPDATE 1
+
+STDERR:
+ERROR:  Accepted transaction count or amount mismatch
+CONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE

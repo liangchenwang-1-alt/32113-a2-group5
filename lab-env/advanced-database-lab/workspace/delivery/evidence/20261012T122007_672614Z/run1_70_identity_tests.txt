@@ -1,0 +1,14 @@
+EXIT: 0
+EXPECTED_FAILURE: False
+STDOUT:
+BEGIN
+INSERT 0 3
+DO
+                                     identity_tests                                     
+----------------------------------------------------------------------------------------
+ PASS: R3 positive, name-only negative, conflicting DOB, ambiguity, phone normalization
+(1 row)
+
+ROLLBACK
+
+STDERR:

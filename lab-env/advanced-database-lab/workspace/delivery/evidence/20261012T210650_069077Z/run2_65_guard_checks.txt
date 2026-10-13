@@ -1,0 +1,23 @@
+EXIT: 0
+EXPECTED_FAILURE: False
+STDOUT:
+DO
+           guard           | result 
+---------------------------+--------
+ T9 account identity       | PASS
+ T10 case channel          | PASS
+ T11 fanout                | PASS
+ T12 unresolved visibility | PASS
+ T13 attribution totals    | PASS
+(5 rows)
+
+      rule      | source_rows | resolved | ambiguous | unmatched 
+----------------+-------------+----------+-----------+-----------
+ NONE           |           2 |        0 |         1 |         1
+ R1_CORE_ID     |         200 |      200 |         0 |         0
+ R2_DOB_CONTACT |         375 |      375 |         0 |         0
+ R3_NAME_EMAIL  |           0 |        0 |         0 |         0
+(4 rows)
+
+
+STDERR:

@@ -1,0 +1,13 @@
+EXIT: 0
+EXPECTED_FAILURE: False
+STDOUT:
+CREATE TABLE
+INSERT 0 577
+DO
+ verified_source_identities 
+----------------------------
+                        577
+(1 row)
+
+
+STDERR:
